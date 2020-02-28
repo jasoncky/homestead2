@@ -34,6 +34,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.user.fields.password_helper') }}</span>
             </div>
+			@can('user_status')
 			<div class="form-group">
                 <label class="required" for="password">{{ trans('cruds.user.fields.status') }}</label>
                 <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status" id="status" required>
@@ -45,6 +46,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.user.fields.status_helper') }}</span>
             </div>
+			@endcan
             <div class="form-group">
                 <label class="required" for="roles">{{ trans('cruds.user.fields.roles') }}</label>
                 <div style="padding-bottom: 4px">

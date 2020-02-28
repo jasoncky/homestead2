@@ -29,5 +29,11 @@ class AuthServiceProvider extends ServiceProvider
         if (!app()->runningInConsole()) {
             Passport::routes();
         };
+		
+		 Gate::define('user_status', function($user) {
+			//return $user->isAdmin == 1; 
+			//return $user->role_id == 1; // for admin
+			return $user->email  == 'jasoncky@gmail.com';
+		});
     }
 }

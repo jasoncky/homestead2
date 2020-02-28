@@ -92,7 +92,10 @@ class UsersController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $user = User::create($request->all());
+        if (!auth()->user()->can('user_status')) {
+			$request['status'] == "Active";
+		}
+		$user = User::create($request->all());
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
@@ -111,7 +114,12 @@ class UsersController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->all());
+        if (!auth()->user()->can('user_status') && isset($request['status'])) {
+			unset($request['status']);
+		}
+		//error_log(print_r($request->all(),1));
+		$user->update($request->all());
+		
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
