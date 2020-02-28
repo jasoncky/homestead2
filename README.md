@@ -10,5 +10,17 @@ c. client_secret ((default: check oauth_clients table)
 d. username (default: <your login username>)
 e. password (default: <your login password>)
 f. scope (default: *)
+    
+#specific field permission
+refer to file (example)
+1. app/providers/AuthServiceProvider.php
+2. user controller
+3. user view blade file
+
+#language file
+refer to file
+1. resource/lang/
+
+
 
 
