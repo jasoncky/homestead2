@@ -36,6 +36,9 @@
                     <th>
                         {{ trans('cruds.user.fields.roles') }}
                     </th>
+					 <th>
+                        {{ trans('cruds.user.fields.status') }}
+                    </th>
 					<th>
 						{{ trans('cruds.user.fields.created_at') }}
 					</th>
@@ -103,6 +106,7 @@
 		{ data: 'email', name: 'email' },
 		{ data: 'email_verified_at', name: 'email_verified_at' },
 		{ data: 'roles', name: 'roles.title' },
+		{ data: 'status', name: 'status' },
 		{ data: 'created_at', name: 'created_at' },
 		{ data: 'updated_at', name: 'updated_at' },
 		{ data: 'actions', name: '{{ trans('global.actions') }}' }
@@ -113,7 +117,11 @@
 	pagingType: 'simple_numbers',
 	columnDefs: [
 	  { targets: 'no-sort', orderable: false }
-	]
+	],
+	 // But we do have value, so we can add CSS from data.status_color value
+    createdRow: (row, data, dataIndex, cells) => {
+        $(cells[6]).css('background-color', data.status_color)
+    }
   };
   $('.datatable-User').DataTable(dtOverrideGlobals);
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

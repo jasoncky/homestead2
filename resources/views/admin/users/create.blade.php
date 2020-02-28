@@ -33,6 +33,17 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.user.fields.password_helper') }}</span>
             </div>
+			 <div class="form-group">
+                <label class="required" for="password">{{ trans('cruds.user.fields.status') }}</label>
+                <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status" id="status" required>
+					<option value="Active">Active</option>
+					<option value="Inactive">Inactive</option>
+				</select>
+                @if($errors->has('status'))
+                    <span class="text-danger">{{ $errors->first('status') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.status_helper') }}</span>
+            </div>
             <div class="form-group">
                 <label class="required" for="roles">{{ trans('cruds.user.fields.roles') }}</label>
                 <div style="padding-bottom: 4px">

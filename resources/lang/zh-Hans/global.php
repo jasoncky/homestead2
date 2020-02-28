@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'actions'                              => '作用',
+    'actions'                              => '',
     'add'                                  => '新增',
     'allRightsReserved'                    => '版权所有.',
     'areYouSure'                           => '确定？',

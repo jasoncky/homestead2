@@ -79,3 +79,22 @@ table.dataTable thead .sorting_desc {
 .form-check.is-invalid ~ .invalid-feedback {
     display: block;
 }
+
+.dataTables_scrollBody, .dataTables_wrapper {
+    position: static !important;
+}
+.dropdown-button {
+    cursor: pointer;
+    font-size: 0.85em;
+    display:block
+}
+.dropdown-menu i {
+    font-size: 1.33333em;
+    line-height: 0.65em;
+    vertical-align: -15%;
+    color: #000;
+}
+
+.leftmenu {
+	left: -40px !important;	
+}

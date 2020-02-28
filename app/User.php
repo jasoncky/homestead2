@@ -41,6 +41,12 @@ class User extends Authenticatable
         'email_verified_at',
 		'two_factor_code',
         'two_factor_expires_at',
+		'status',
+    ];
+	
+	const STATUS_COLOR = [
+        'Active'   => '#90EE90',
+        'Inactive' => '#00BFFF',
     ];
 
     public function getIsAdminAttribute()

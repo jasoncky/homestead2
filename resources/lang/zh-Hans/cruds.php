@@ -63,6 +63,8 @@ return [
             'updated_at_helper'        => '',
             'deleted_at'               => '删除于',
             'deleted_at_helper'        => '',
+			'status'				   => 'Status',
+			'status_helper'			   => '',
         ],
     ],
     'productManagement' => [

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'actions'                              => 'Actions',
+    'actions'                              => '',
     'add'                                  => '新增',
     'allRightsReserved'                    => 'All rights reserved.',
     'areYouSure'                           => '確定?',

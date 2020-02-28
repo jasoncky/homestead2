@@ -23,6 +23,8 @@ class UsersController extends Controller
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
+			// New "hidden" column
+			$table->addColumn('status_color', ' ');
 
             $table->editColumn('actions', function ($row) {
                 $viewGate      = 'user_show';
@@ -48,17 +50,22 @@ class UsersController extends Controller
             $table->editColumn('email', function ($row) {
                 return $row->email ? $row->email : "";
             });
-
             $table->editColumn('roles', function ($row) {
                 $labels = [];
 
                 foreach ($row->roles as $role) {
-                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $role->title);
+                    $labels[] = sprintf('<span class="btn btn-info btn-xs">%s</span>', '<a class="btn btn-xs btn-info" target="_blank" href="'. route('admin.roles.show', $role->id) .'">'.$role->title.'</a>');
                 }
 
                 return implode(' ', $labels);
             });
-			
+			// We add "status_color" value but it won't be visible
+			$table->editColumn('status_color', function ($row) {
+				return $row->status && User::STATUS_COLOR[$row->status] ? User::STATUS_COLOR[$row->status] : 'none';
+			});
+			/*$table->editColumn('status', function ($row) {
+				return $row->status ? $row->status : "";
+			});*/
 			$table->editColumn('created_at', function ($row) {
 				return $row->created_at ? $row->created_at : "";
 			});

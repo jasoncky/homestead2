@@ -45,63 +45,8 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach($events as $key => $event)
-                        <tr data-entry-id="{{ $event->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $event->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $event->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $event->start_time ?? '' }}
-                            </td>
-                            <td>
-                                {{ $event->end_time ?? '' }}
-                            </td>
-                            <td>
-                                {{ App\Event::RECURRENCE_RADIO[$event->recurrence] ?? '' }}
-                            </td>
-                            <td>
-                                {{ $event->event->name ?? '' }}
-                            </td>
-                            <td>
-                                @can('event_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.events.show', $event->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('event_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.events.edit', $event->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('event_delete')
-                                    <form action="{{ route('admin.events.destroy', $event->id) }}" 
-                                        method="POST" 
-                                        onsubmit="return confirm('{{ $event->events_count || $event->event ? 'Do you want to delete future recurring events, too?' : trans('global.areYouSure') }}');" style="display: inline-block;"
-                                    >
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
             </table>
         </div>
-
-
     </div>
 </div>
 @endsection
@@ -139,8 +84,35 @@
   }
   dtButtons.push(deleteButton)
 @endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
+  
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.events.index') }}",
+    columns: [
+		{ data: 'placeholder', name: 'placeholder' },
+		{ data: 'id', name: 'id' },
+		{ data: 'name', name: 'name' },
+		{ data: 'start_time', name: 'start_time' },
+		{ data: 'end_time', name: 'end_time' },
+		{ data: 'recurrence', name: 'recurrence' },
+		{ data: 'event', name: 'event' },
+		{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
+    order: [[ 1, 'desc' ]],
+    pageLength: 10,
+	lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+	pagingType: 'simple_numbers',
+	columnDefs: [
+	  { targets: 'no-sort', orderable: false }
+	]
+  };
+  
+  
+  /*$.extend(true, $.fn.dataTable.defaults, {
     order: [[ 1, 'asc' ]],
     pageLength: 10,
 	lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
@@ -148,8 +120,9 @@
 	columnDefs: [
 		{ targets: 'no-sort', orderable: false }
 	]
-  });
-  $('.datatable-Event:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  });*/
+  //$('.datatable-Event:not(.ajaxTable)').DataTable(dtOverrideGlobals)
+  $('.datatable-Event').DataTable(dtOverrideGlobals);
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();

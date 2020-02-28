@@ -10,17 +10,63 @@ use App\Http\Requests\UpdateEventRequest;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class EventsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        abort_if(Gate::denies('event_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        /*abort_if(Gate::denies('event_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $events = Event::withCount('events')
             ->get();
 
-        return view('admin.events.index', compact('events'));
+        return view('admin.events.index', compact('events'));*/
+		if ($request->ajax()) {
+			$query = Event::query()->select(sprintf('%s.*', (new Event)->table));
+			$table = Datatables::of($query);
+
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'event_show';
+                $editGate      = 'event_edit';
+                $deleteGate    = 'event_delete';
+                $crudRoutePart = 'events';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : "";
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : "";
+            });
+			$table->editColumn('start_time', function ($row) {
+				return $row->start_time ? $row->start_time : "";
+			});
+			$table->editColumn('end_time', function ($row) {
+				return $row->end_time ? $row->end_time : "";
+			});
+			$table->editColumn('recurrence', function ($row) {
+				return $row->recurrence ? $row->recurrence : "";
+			});
+			$table->editColumn('event', function ($row) {
+				return $row->event ? $row->event : "";
+			});
+            $table->rawColumns(['actions', 'placeholder']);
+
+            return $table->make(true);
+		}
+		return view('admin.events.index');
     }
 
     public function create()
