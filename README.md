@@ -30,6 +30,9 @@ refer to file
 Email: admin@admin.com
 Password: password
 
+#other notes
+If you are using php artisan serve its possible that your public folder is not being used, so use PHP native server instead and specify the public folder as the web root.
 
+Stop artisan serve and try using PHP native server by issuing this command at the root of your Laravel project: php -S localhost:8000 -t public
 
 
