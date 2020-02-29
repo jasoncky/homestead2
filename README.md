@@ -21,7 +21,7 @@ refer to file (example)
 refer to file
 1. resource/lang/
 
-
+#installation
 1. Prepare your .env file there with database connection and other settings
 2. Run composer install command
 3. Run php artisan migrate --seed command. Seeds are important, because they will create the first admin user for you.
