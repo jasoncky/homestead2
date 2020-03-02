@@ -26,4 +26,12 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 	
 	// Events
     Route::apiResource('events', 'EventsApiController');
+	
+	// Badges
+    Route::post('badges/media', 'BadgesApiController@storeMedia')->name('badges.storeMedia');
+    Route::apiResource('badges', 'BadgesApiController');
+
+    // Employees
+    Route::post('employees/media', 'EmployeesApiController@storeMedia')->name('employees.storeMedia');
+    Route::apiResource('employees', 'EmployeesApiController');
 });

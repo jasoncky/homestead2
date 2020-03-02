@@ -26,7 +26,9 @@ refer to file
 2. Run composer install command
 3. Run php artisan migrate --seed command. Seeds are important, because they will create the first admin user for you.
 4. Run php artisan key:generate command.
-5. And that's it, go to your domain and login:
+5. Run php artisan storage:link
+6. Run php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config" (https://quickadminpanel.com/blog/top-5-questionsanswers-about-spatie-medialibrary/)
+7. And that's it, go to your domain and login:
 Email: admin@admin.com
 Password: password
 

@@ -55,5 +55,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	// Calendar
 	Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 	
+	//chartjs
 	Route::get('chart', 'ChartController@index')->name('chart');
+	
+	 // Badges
+    Route::delete('badges/destroy', 'BadgesController@massDestroy')->name('badges.massDestroy');
+    Route::post('badges/media', 'BadgesController@storeMedia')->name('badges.storeMedia');
+    Route::post('badges/ckmedia', 'BadgesController@storeCKEditorImages')->name('badges.storeCKEditorImages');
+    Route::resource('badges', 'BadgesController');
+
+    // Employees
+    Route::delete('employees/destroy', 'EmployeesController@massDestroy')->name('employees.massDestroy');
+    Route::post('employees/media', 'EmployeesController@storeMedia')->name('employees.storeMedia');
+    Route::post('employees/ckmedia', 'EmployeesController@storeCKEditorImages')->name('employees.storeCKEditorImages');
+    Route::resource('employees', 'EmployeesController');
 });

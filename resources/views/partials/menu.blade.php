@@ -123,6 +123,26 @@
                         </ul>
                     </li>
                 @endcan
+				@can('badge_access')
+                <li class="nav-item">
+                    <a href="{{ route("admin.badges.index") }}" class="nav-link {{ request()->is('admin/badges') || request()->is('admin/badges/*') ? 'active' : '' }}">
+                        <i class="fa-fw fas fa-certificate nav-icon">
+
+                        </i>
+                        {{ trans('cruds.badge.title') }}
+                    </a>
+                </li>
+				@endcan
+				@can('employee_access')
+					<li class="nav-item">
+						<a href="{{ route("admin.employees.index") }}" class="nav-link {{ request()->is('admin/employees') || request()->is('admin/employees/*') ? 'active' : '' }}">
+							<i class="fa-fw fas fa-briefcase nav-icon">
+
+							</i>
+							{{ trans('cruds.employee.title') }}
+						</a>
+					</li>
+				@endcan
                 @can('user_alert_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.user-alerts.index") }}" class="nav-link {{ request()->is('admin/user-alerts') || request()->is('admin/user-alerts/*') ? 'active' : '' }}">
