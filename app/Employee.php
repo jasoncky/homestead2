@@ -31,6 +31,12 @@ class Employee extends Model implements HasMedia
         'updated_at',
         'deleted_at',
     ];
+	
+	public static function boot()
+	{
+		parent::boot();
+		Employee::observe(new \App\Observers\UserActionsObserver);
+	}
 
     public function registerMediaConversions(Media $media = null)
     {

@@ -22,7 +22,13 @@ class UserAlert extends Model
         'created_at',
         'updated_at',
     ];
-
+	
+	public static function boot()
+	{
+		parent::boot();
+		UserAlert::observe(new \App\Observers\UserActionsObserver);
+	}
+	
     public function users()
     {
         return $this->belongsToMany(User::class);

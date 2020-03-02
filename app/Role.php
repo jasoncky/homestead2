@@ -23,7 +23,13 @@ class Role extends Model
         'updated_at',
         'deleted_at',
     ];
-
+    
+	public static function boot()
+	{
+		parent::boot();
+		Role::observe(new \App\Observers\UserActionsObserver);
+	}
+	
     public function rolesUsers()
     {
         return $this->belongsToMany(User::class);

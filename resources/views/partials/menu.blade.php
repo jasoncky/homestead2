@@ -123,6 +123,16 @@
                         </ul>
                     </li>
                 @endcan
+				@can('order_access')
+					<li class="nav-item">
+						<a href="{{ route("admin.orders.index") }}" class="nav-link {{ request()->is('admin/orders') || request()->is('admin/orders/*') ? 'active' : '' }}">
+							<i class="fa-fw fas fa-cogs nav-icon">
+
+							</i>
+							{{ trans('cruds.order.title') }}
+						</a>
+					</li>
+				@endcan
 				@can('badge_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.badges.index") }}" class="nav-link {{ request()->is('admin/badges') || request()->is('admin/badges/*') ? 'active' : '' }}">

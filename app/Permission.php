@@ -23,7 +23,13 @@ class Permission extends Model
         'updated_at',
         'deleted_at',
     ];
-
+	
+	 public static function boot()
+	{
+		parent::boot();
+		Permission::observe(new \App\Observers\UserActionsObserver);
+	}
+	
     public function permissionsRoles()
     {
         return $this->belongsToMany(Role::class);

@@ -37,7 +37,14 @@ class Event extends Model
         'updated_at',
         'deleted_at',
     ];
-
+    
+	
+	public static function boot()
+	{
+		parent::boot();
+		Event::observe(new \App\Observers\UserActionsObserver);
+	}
+	
     public function events()
     {
         return $this->hasMany(Event::class, 'event_id', 'id');

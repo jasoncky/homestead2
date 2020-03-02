@@ -11,6 +11,9 @@ Route::get('/home', function () {
     return redirect()->route('admin.home');
 });
 
+// dropdown
+Route::get('admin/get_by_country', 'Admin\DropdownController@get_by_country')->name('admin.get_by_country');
+
 Auth::routes(['register' => false]);
 // Admin
 
@@ -69,4 +72,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('employees/media', 'EmployeesController@storeMedia')->name('employees.storeMedia');
     Route::post('employees/ckmedia', 'EmployeesController@storeCKEditorImages')->name('employees.storeCKEditorImages');
     Route::resource('employees', 'EmployeesController');
+	
+	// Orders
+    Route::delete('orders/destroy', 'OrdersController@massDestroy')->name('orders.massDestroy');
+    Route::resource('orders', 'OrdersController');
 });

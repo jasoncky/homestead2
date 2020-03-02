@@ -34,4 +34,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Employees
     Route::post('employees/media', 'EmployeesApiController@storeMedia')->name('employees.storeMedia');
     Route::apiResource('employees', 'EmployeesApiController');
+	
+	// Orders
+    Route::apiResource('orders', 'OrdersApiController');
 });

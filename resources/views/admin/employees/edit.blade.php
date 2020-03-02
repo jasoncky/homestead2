@@ -41,6 +41,19 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.employee.fields.photo_helper') }}</span>
             </div>
+			<div class="form-group">
+				<label for="country">{{ trans('cruds.employee.fields.country') }}</label>
+				<select name="country" id="country" class="form-control">
+					<option value="">{{ trans('global.pleaseSelect') }}</option>
+					<option value="Malaysia">Malaysia</option>
+				</select>
+			</div>
+			<div class="form-group {{ $errors->has('city_id') ? 'has-error' : '' }}">
+				<label for="city">{{ trans('cruds.employee.fields.city') }}</label>
+				<select name="city" id="city" class="form-control">
+					<option value="">{{ trans('global.pleaseSelect') }}</option>
+				</select>
+			</div>
             <div class="form-group">
                 <label for="badges">{{ trans('cruds.employee.fields.badges') }}</label>
                 <div style="padding-bottom: 4px">
@@ -74,7 +87,7 @@
 
 @section('scripts')
 <script>
-    Dropzone.options.photoDropzone = {
+Dropzone.options.photoDropzone = {
     url: '{{ route('admin.employees.storeMedia') }}',
     maxFilesize: 2, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
@@ -100,14 +113,14 @@
       }
     },
     init: function () {
-@if(isset($employee) && $employee->photo)
-      var file = {!! json_encode($employee->photo) !!}
-          this.options.addedfile.call(this, file)
-      this.options.thumbnail.call(this, file, '{{ $employee->photo->getUrl('thumb') }}')
-      file.previewElement.classList.add('dz-complete')
-      $('form').append('<input type="hidden" name="photo" value="' + file.file_name + '">')
-      this.options.maxFiles = this.options.maxFiles - 1
-@endif
+		@if(isset($employee) && $employee->photo)
+			  var file = {!! json_encode($employee->photo) !!}
+				  this.options.addedfile.call(this, file)
+			  this.options.thumbnail.call(this, file, '{{ $employee->photo->getUrl('thumb') }}')
+			  file.previewElement.classList.add('dz-complete')
+			  $('form').append('<input type="hidden" name="photo" value="' + file.file_name + '">')
+			  this.options.maxFiles = this.options.maxFiles - 1
+		@endif
     },
     error: function (file, response) {
         if ($.type(response) === 'string') {
@@ -125,5 +138,15 @@
         return _results
     }
 }
+
+$("#country").change(function(){
+	$.ajax({
+		url: "{{ route('admin.get_by_country') }}?country=" + $(this).val(),
+		method: 'GET',
+		success: function(data) {
+			$('#city').html(data.html);
+		}
+	});
+});
 </script>
 @endsection

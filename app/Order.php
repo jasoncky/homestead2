@@ -3,13 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductTag extends Model
+class Order extends Model
 {
-    use SoftDeletes;
-
-    public $table = 'product_tags';
+    public $table = 'orders';
 
     protected $dates = [
         'created_at',
@@ -18,21 +15,21 @@ class ProductTag extends Model
     ];
 
     protected $fillable = [
-        'name',
-		'color',
         'created_at',
         'updated_at',
         'deleted_at',
+        'customer_name',
+        'customer_email',
     ];
-	
+    
 	public static function boot()
 	{
 		parent::boot();
-		ProductTag::observe(new \App\Observers\UserActionsObserver);
+		Order::observe(new \App\Observers\UserActionsObserver);
 	}
 	
-    public function tagProducts()
+    public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot(['quantity']);
     }
 }

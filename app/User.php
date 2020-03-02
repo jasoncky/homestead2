@@ -48,6 +48,12 @@ class User extends Authenticatable
         'Active'   => '#90EE90',
         'Inactive' => '#00BFFF',
     ];
+	
+	public static function boot()
+	{
+		parent::boot();
+		User::observe(new \App\Observers\UserActionsObserver);
+	}
 
     public function getIsAdminAttribute()
     {

@@ -32,7 +32,13 @@ class Product extends Model implements HasMedia
         'deleted_at',
         'description',
     ];
-
+   
+    public static function boot()
+	{
+		parent::boot();
+		Product::observe(new \App\Observers\UserActionsObserver);
+	}
+    
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')->width(50)->height(50);
