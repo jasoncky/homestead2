@@ -92,9 +92,10 @@ class UsersController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        if (!auth()->user()->can('user_status')) {
-			$request['status'] == "Active";
+		if (!auth()->user()->can('user_status')) {
+			$request->request->add(['status' => 'Active']);
 		}
+		
 		$user = User::create($request->all());
         $user->roles()->sync($request->input('roles', []));
 

@@ -17,7 +17,7 @@ class TwoFactor
     {
         $user = auth()->user();
 
-        if(auth()->check() && $user->two_factor_code)
+        if(auth()->check() && $user->two_factor_code && $user->status == 'Active')
         {
             if($user->two_factor_expires_at->lt(now()))
             {

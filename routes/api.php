@@ -37,4 +37,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 	
 	// Orders
     Route::apiResource('orders', 'OrdersApiController');
+	
+	// Transactions
+    Route::apiResource('transactions', 'TransactionsApiController');
 });

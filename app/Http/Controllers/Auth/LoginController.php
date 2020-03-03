@@ -41,10 +41,13 @@ class LoginController extends Controller
 	
 	protected function authenticated(Request $request, $user)
     {
-        $user->generateTwoFactorCode();
-		$details = [
-			'two_factor_code' => $user->two_factor_code
-		];
-		$user->notify(new TwoFactorCode($details));
+        if ($user->status == 'Active')
+		{
+			$user->generateTwoFactorCode();
+			$details = [
+				'two_factor_code' => $user->two_factor_code
+			];
+			$user->notify(new TwoFactorCode($details));
+		}
     }
 }
