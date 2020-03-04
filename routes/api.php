@@ -41,3 +41,5 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 	// Transactions
     Route::apiResource('transactions', 'TransactionsApiController');
 });
+
+Route::get('api/v1/country/search', 'Api\V1\Admin\CountryApiController@search')->name('api.country.search');
