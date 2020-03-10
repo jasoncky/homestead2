@@ -22,7 +22,8 @@ class OrdersApiController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
-        $order = Order::create($request->all());
+        //$order = Order::create($request->all());
+		$order = Order::create($request->only('customer_name', 'customer_email', 'products','quantities'));
         $order->products()->sync($request->input('products', []));
 
         return (new OrderResource($order))
@@ -39,7 +40,8 @@ class OrdersApiController extends Controller
 
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        $order->update($request->all());
+        //$order->update($request->all());
+		$order->update($request->only('customer_name', 'customer_email', 'products','quantities'));
         $order->products()->sync($request->input('products', []));
 
         return (new OrderResource($order))

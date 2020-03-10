@@ -22,7 +22,8 @@ class ProductTagApiController extends Controller
 
     public function store(StoreProductTagRequest $request)
     {
-        $productTag = ProductTag::create($request->all());
+        //$productTag = ProductTag::create($request->all());
+		$productTag = ProductTag::create($request->only('name', 'color'));
 
         return (new ProductTagResource($productTag))
             ->response()
@@ -38,8 +39,9 @@ class ProductTagApiController extends Controller
 
     public function update(UpdateProductTagRequest $request, ProductTag $productTag)
     {
-        $productTag->update($request->all());
-
+        //$productTag->update($request->all());
+		$productTag->update($request->only('name', 'color'));
+		
         return (new ProductTagResource($productTag))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);

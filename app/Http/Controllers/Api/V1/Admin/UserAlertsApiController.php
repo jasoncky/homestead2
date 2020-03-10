@@ -22,7 +22,8 @@ class UserAlertsApiController extends Controller
 
     public function store(StoreUserAlertRequest $request)
     {
-        $userAlert = UserAlert::create($request->all());
+        //$userAlert = UserAlert::create($request->all());
+		$userAlert = UserAlert::create($request->only('alert_text', 'alert_link', 'users'));
         $userAlert->users()->sync($request->input('users', []));
 
         return (new UserAlertResource($userAlert))
@@ -39,7 +40,8 @@ class UserAlertsApiController extends Controller
 
     public function update(UpdateUserAlertRequest $request, UserAlert $userAlert)
     {
-        $userAlert->update($request->all());
+        //$userAlert->update($request->all());
+		$userAlert->update($request->only('alert_text', 'alert_link', 'users'));
         $userAlert->users()->sync($request->input('users', []));
 
         return (new UserAlertResource($userAlert))

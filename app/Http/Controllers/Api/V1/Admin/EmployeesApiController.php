@@ -25,7 +25,8 @@ class EmployeesApiController extends Controller
 
     public function store(StoreEmployeeRequest $request)
     {
-        $employee = Employee::create($request->all());
+        //$employee = Employee::create($request->all());
+		$employee = Employee::create($request->only('name', 'position', 'country','city','photo','badges'));
         $employee->badges()->sync($request->input('badges', []));
 
         return (new EmployeeResource($employee))
@@ -42,8 +43,9 @@ class EmployeesApiController extends Controller
 
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
-        $employee->update($request->all());
-        $employee->badges()->sync($request->input('badges', []));
+        //$employee->update($request->all());
+        $employee->update($request->only('name', 'position', 'country','city','photo','badges'));
+		$employee->badges()->sync($request->input('badges', []));
 
         return (new EmployeeResource($employee))
             ->response()
