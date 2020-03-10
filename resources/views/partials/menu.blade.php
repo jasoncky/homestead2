@@ -193,16 +193,6 @@
                     </a>
                 </li>
                 @endcan
-				 @can('invitation_access')
-				 <li class="nav-item">
-                    <a href="{{ route("admin.invitations.index") }}" class="nav-link {{ request()->is('admin/invitations') || request()->is('admin/invitations/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-file-invoice-dollar nav-icon">
-
-                        </i>
-                        {{ trans('cruds.invitations.title') }}
-                    </a>
-                </li>
-				@endcan
 				<li class="nav-item">
                 <a href="{{ route("admin.chart") }}" class="nav-link {{ request()->is('admin/chart') || request()->is('admin/chart/*') ? 'active' : '' }}">
                     <i class="nav-icon fa-fw fas fa-chart-pie">

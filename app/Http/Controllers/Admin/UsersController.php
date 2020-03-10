@@ -96,7 +96,8 @@ class UsersController extends Controller
 			$request->request->add(['status' => 'Active']);
 		}
 		
-		$user = User::create($request->all());
+		//$user = User::create($request->all());
+		$user = User::create($request->only('name', 'email', 'password','status','roles'));
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
@@ -119,7 +120,8 @@ class UsersController extends Controller
 			unset($request['status']);
 		}
 		//error_log(print_r($request->all(),1));
-		$user->update($request->all());
+		//$user->update($request->all());
+		$user->update($request->only('name', 'email', 'password','status','roles'));
 		
         $user->roles()->sync($request->input('roles', []));
 

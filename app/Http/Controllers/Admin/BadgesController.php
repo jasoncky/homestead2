@@ -35,7 +35,8 @@ class BadgesController extends Controller
 
     public function store(StoreBadgeRequest $request)
     {
-        $badge = Badge::create($request->all());
+        //$badge = Badge::create($request->all());
+		$badge = Badge::create($request->only('name', 'icon'));
 
         if ($request->input('icon', false)) {
             $badge->addMedia(storage_path('tmp/uploads/' . $request->input('icon')))->toMediaCollection('icon');
@@ -57,7 +58,8 @@ class BadgesController extends Controller
 
     public function update(UpdateBadgeRequest $request, Badge $badge)
     {
-        $badge->update($request->all());
+        //$badge->update($request->all());
+		$badge->update($request->only('name', 'icon'));
 
         if ($request->input('icon', false)) {
             if (!$badge->icon || $request->input('icon') !== $badge->icon->file_name) {
