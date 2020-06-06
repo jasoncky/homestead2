@@ -1,0 +1,1 @@
+<div id="strow_{{ $row->id }}">{{ $row->status }}</div>

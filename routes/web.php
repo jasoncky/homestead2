@@ -17,6 +17,13 @@ Route::get('admin/get_by_country', 'Admin\DropdownController@get_by_country')->n
 Auth::routes(['register' => false]);
 // Admin
 
+Route::get('redirect/{driver}', 'SocialAuthController@redirect');
+Route::get('callback/{driver}', 'SocialAuthController@callback');
+Route::get('/register', 'RegistrationController@create')->name('register');
+Route::post('register', 'RegistrationController@store')->name('register');
+Route::get('pricing', 'PricingController@index')->name('pricing');
+Route::get('pricingselect/{planid}', 'PricingController@redirect');
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth','active_user', 'twofactor']], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('user-alerts/read', 'UserAlertsController@read');
@@ -80,4 +87,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	// Transactions
     Route::delete('transactions/destroy', 'TransactionsController@massDestroy')->name('transactions.massDestroy');
     Route::resource('transactions', 'TransactionsController');
+	
+	//members
+	Route::delete('members/destroy', 'MembersController@massDestroy')->name('members.massDestroy');
+	Route::post('members/updateStatus', 'MembersController@updateStatus')->name('members.updateStatus');
+	Route::post('members/media', 'MembersController@storeMedia')->name('members.storeMedia');
+    Route::post('members/ckmedia', 'MembersController@storeCKEditorImages')->name('members.storeCKEditorImages');
+    Route::resource('members', 'MembersController');
 });

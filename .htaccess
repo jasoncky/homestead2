@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP_HOST} ^localhost$ [NC]
+    RewriteRule ^(.*)$ public/$1 [L,NC] 
+</IfModule>

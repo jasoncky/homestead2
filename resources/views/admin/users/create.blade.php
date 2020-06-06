@@ -35,7 +35,7 @@
             </div>
 			@can('user_status')
 			 <div class="form-group">
-                <label class="required" for="password">{{ trans('cruds.user.fields.status') }}</label>
+                <label class="required" for="status">{{ trans('cruds.user.fields.status') }}</label>
                 <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status" id="status" required>
 					<option value="Active">Active</option>
 					<option value="Inactive">Inactive</option>

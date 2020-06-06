@@ -72,6 +72,35 @@
                         </ul>
                     </li>
                 @endcan
+				
+				@can('member_access')
+                    <li class="nav-item has-treeview {{ request()->is('admin/members*') ? 'menu-open' : '' }} {{ request()->is('admin/members*') ? 'menu-open' : '' }} {{ request()->is('admin/members*') ? 'menu-open' : '' }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw fas fa-users">
+
+                            </i>
+                            <p>
+                                <span>{{ trans('cruds.memberManagement.title') }}</span>
+                                <i class="right fa fa-fw fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('member_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.members.index") }}" class="nav-link {{ request()->is('admin/members') || request()->is('admin/members/*') ? 'active' : '' }}">
+                                        <i class="fa-fw fas fa-user">
+
+                                        </i>
+                                        <p>
+                                            <span>{{ trans('cruds.member.title') }}</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+				
                 @can('product_management_access')
                     <li class="nav-item has-treeview {{ request()->is('admin/product-categories*') ? 'menu-open' : '' }} {{ request()->is('admin/product-tags*') ? 'menu-open' : '' }} {{ request()->is('admin/products*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -126,7 +155,7 @@
 				@can('order_access')
 					<li class="nav-item">
 						<a href="{{ route("admin.orders.index") }}" class="nav-link {{ request()->is('admin/orders') || request()->is('admin/orders/*') ? 'active' : '' }}">
-							<i class="fa-fw fas fa-cogs nav-icon">
+							<i class="fa-fw fas fa-shopping-cart nav-icon">
 
 							</i>
 							{{ trans('cruds.order.title') }}

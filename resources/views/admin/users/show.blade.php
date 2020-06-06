@@ -57,6 +57,14 @@
                             @endforeach
                         </td>
                     </tr>
+					<tr>
+                        <th>
+                            {{ trans('cruds.user.fields.status') }}
+                        </th>
+                        <td>
+                            {{ $user->status }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

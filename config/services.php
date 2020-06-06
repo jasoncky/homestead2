@@ -29,5 +29,16 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+	
+	'facebook' => [
+		'client_id' => '648064742589494',
+		'client_secret' => '6ea1cbf813e01f5b3148a4a2ab56cfc3',
+		'redirect' => 'https://homestead.app/callback/facebook',
+	],
+	
+	'google' => [
+        'client_id' => '817920195907-p9gsatof6q6d4gvklgn7gmrbqhe42e16.apps.googleusercontent.com',
+        'client_secret' => 'Dv-ngI3H1opQvfEz9Hz0vD-L',
+        'redirect' => 'https://homestead.app/callback/google',
+    ],
 ];
