@@ -87,6 +87,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	// Transactions
     Route::delete('transactions/destroy', 'TransactionsController@massDestroy')->name('transactions.massDestroy');
     Route::resource('transactions', 'TransactionsController');
+<<<<<<< HEAD
 	
 	//members
 	Route::delete('members/destroy', 'MembersController@massDestroy')->name('members.massDestroy');
@@ -94,4 +95,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	Route::post('members/media', 'MembersController@storeMedia')->name('members.storeMedia');
     Route::post('members/ckmedia', 'MembersController@storeCKEditorImages')->name('members.storeCKEditorImages');
     Route::resource('members', 'MembersController');
+=======
+
+>>>>>>> 2ae2d1ddb248e0a1442e43a678ab27cb6a6ddb64
 });

@@ -45,3 +45,5 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 	Route::post('members/media', 'MembersApiController@storeMedia')->name('members.storeMedia');
     Route::apiResource('members', 'TransactionsApiController');
 });
+
+Route::get('api/v1/country/search', 'Api\V1\Admin\CountryApiController@search')->name('api.country.search');
