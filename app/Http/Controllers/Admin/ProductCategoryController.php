@@ -79,7 +79,8 @@ class ProductCategoryController extends Controller
 
     public function store(StoreProductCategoryRequest $request)
     {
-        $productCategory = ProductCategory::create($request->all());
+        //$productCategory = ProductCategory::create($request->all());
+		$productCategory = ProductCategory::create($request->only('name', 'description', 'photo'));
 
         if ($request->input('photo', false)) {
             $productCategory->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
@@ -97,7 +98,8 @@ class ProductCategoryController extends Controller
 
     public function update(UpdateProductCategoryRequest $request, ProductCategory $productCategory)
     {
-        $productCategory->update($request->all());
+        //$productCategory->update($request->all());
+		$productCategory->update($request->only('name', 'description', 'photo'));
 
         if ($request->input('photo', false)) {
             if (!$productCategory->photo || $request->input('photo') !== $productCategory->photo->file_name) {

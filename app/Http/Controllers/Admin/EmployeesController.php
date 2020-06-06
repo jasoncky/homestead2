@@ -80,7 +80,8 @@ class EmployeesController extends Controller
 
     public function store(StoreEmployeeRequest $request)
     {
-        $employee = Employee::create($request->all());
+        //$employee = Employee::create($request->all());
+		$employee = Employee::create($request->only('name', 'position', 'country','city','photo','badges'));
         $employee->badges()->sync($request->input('badges', []));
 
         if ($request->input('photo', false)) {
@@ -107,7 +108,8 @@ class EmployeesController extends Controller
 
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
-        $employee->update($request->all());
+        //$employee->update($request->all());
+		$employee->update($request->only('name', 'position', 'country','city','photo','badges'));
         $employee->badges()->sync($request->input('badges', []));
 
         if ($request->input('photo', false)) {

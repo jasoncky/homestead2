@@ -25,8 +25,9 @@ class BadgesApiController extends Controller
 
     public function store(StoreBadgeRequest $request)
     {
-        $badge = Badge::create($request->all());
-
+        //$badge = Badge::create($request->all());
+		$badge = Badge::create($request->only('name', 'icon'));
+		
         return (new BadgeResource($badge))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
@@ -41,8 +42,9 @@ class BadgesApiController extends Controller
 
     public function update(UpdateBadgeRequest $request, Badge $badge)
     {
-        $badge->update($request->all());
-
+        //$badge->update($request->all());
+		$badge->update($request->only('name', 'icon'));
+		
         return (new BadgeResource($badge))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);

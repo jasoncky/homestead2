@@ -78,7 +78,8 @@ class EventsController extends Controller
 
     public function store(StoreEventRequest $request)
     {
-        Event::create($request->all());
+        //Event::create($request->all());
+		Event::create($request->only('name', 'start_time', 'end_time','recurrence'));
 
         return redirect()->route('admin.systemCalendar');
     }
@@ -95,7 +96,8 @@ class EventsController extends Controller
 
     public function update(UpdateEventRequest $request, Event $event)
     {
-        $event->update($request->all());
+        //$event->update($request->all());
+		$event->update($request->only('name', 'start_time', 'end_time','recurrence'));
 
         return redirect()->route('admin.systemCalendar');
     }
@@ -128,7 +130,8 @@ class EventsController extends Controller
 	public function ajaxUpdate(Request $request)
 	{
 		$appointment = Event::findOrFail($request->id);
-		$appointment->update($request->all());
+		//$appointment->update($request->all());
+		$appointment->update($request->only('name', 'start_time', 'end_time','recurrence'));
 
 		return response()->json(['events' => $appointment]);
 	}

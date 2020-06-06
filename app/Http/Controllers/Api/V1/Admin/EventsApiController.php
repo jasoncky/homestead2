@@ -22,7 +22,8 @@ class EventsApiController extends Controller
 
     public function store(StoreEventRequest $request)
     {
-        $event = Event::create($request->all());
+        //$event = Event::create($request->all());
+		$event = Event::create($request->only('name', 'start_time', 'end_time','recurrence'));
 
         return (new EventResource($event))
             ->response()
@@ -38,7 +39,8 @@ class EventsApiController extends Controller
 
     public function update(UpdateEventRequest $request, Event $event)
     {
-        $event->update($request->all());
+        //$event->update($request->all());
+		$event->update($request->only('name', 'start_time', 'end_time','recurrence'));
 
         return (new EventResource($event))
             ->response()

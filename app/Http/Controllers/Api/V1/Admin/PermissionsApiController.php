@@ -22,7 +22,8 @@ class PermissionsApiController extends Controller
 
     public function store(StorePermissionRequest $request)
     {
-        $permission = Permission::create($request->all());
+        //$permission = Permission::create($request->all());
+		$permission = Permission::create($request->only('title'));
 
         return (new PermissionResource($permission))
             ->response()
@@ -38,7 +39,8 @@ class PermissionsApiController extends Controller
 
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
-        $permission->update($request->all());
+        //$permission->update($request->all());
+		$permission->update($request->only('title'));
 
         return (new PermissionResource($permission))
             ->response()

@@ -42,7 +42,7 @@
             </div>
 			<div class="form-group">
 				<label for="country">{{ trans('cruds.employee.fields.country') }}</label>
-				<select name="country" id="country" class="form-control">
+				<select name="country" id="country" class="form-control select2">
 					<option value="">{{ trans('global.pleaseSelect') }}</option>
 					<option value="Malaysia">Malaysia</option>
 				</select>
@@ -146,6 +146,17 @@ $("#country").change(function(){
 			$('#city').html(data.html);
 		}
 	});
+});
+
+
+$(document).ready(function() {
+    $('#country').select2({
+        minimumInputLength: 3,
+        ajax: {
+            url: '{{ route("api.country.search") }}',
+            dataType: 'json',
+        },
+    });
 });
 </script>
 @endsection

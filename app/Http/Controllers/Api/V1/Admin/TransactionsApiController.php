@@ -22,8 +22,9 @@ class TransactionsApiController extends Controller
 
     public function store(StoreTransactionRequest $request)
     {
-        $transaction = Transaction::create($request->all());
-
+        //$transaction = Transaction::create($request->all());
+		$transaction = Transaction::create($request->only('transaction_date', 'amount', 'description'));
+		
         return (new TransactionResource($transaction))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
@@ -38,8 +39,9 @@ class TransactionsApiController extends Controller
 
     public function update(UpdateTransactionRequest $request, Transaction $transaction)
     {
-        $transaction->update($request->all());
-
+        //$transaction->update($request->all());
+		$transaction->update($request->only('transaction_date', 'amount', 'description'));
+		
         return (new TransactionResource($transaction))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);

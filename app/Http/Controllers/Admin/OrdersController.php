@@ -34,7 +34,8 @@ class OrdersController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
-        $order = Order::create($request->all());
+        //$order = Order::create($request->all());
+		$order = Order::create($request->only('customer_name', 'customer_email', 'products','quantities'));
 
         $products = $request->input('products', []);
         $quantities = $request->input('quantities', []);
@@ -60,7 +61,8 @@ class OrdersController extends Controller
 
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        $order->update($request->all());
+        //$order->update($request->all());
+		$order->update($request->only('customer_name', 'customer_email', 'products','quantities'));
 
         $order->products()->detach();
         $products = $request->input('products', []);

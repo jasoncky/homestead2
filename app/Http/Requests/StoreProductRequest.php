@@ -6,6 +6,7 @@ use App\Product;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
+use App\Rules\MaxWordsRule;
 
 class StoreProductRequest extends FormRequest
 {
@@ -36,6 +37,9 @@ class StoreProductRequest extends FormRequest
             ],
             'tags'         => [
                 'array',
+            ],
+			'description' => [
+                new MaxWordsRule(100),
             ],
         ];
     }

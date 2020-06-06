@@ -106,7 +106,8 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        $product = Product::create($request->all());
+        //$product = Product::create($request->all());
+		$product = Product::create($request->only('name', 'description', 'price','categories','tags','photo'));
         $product->categories()->sync($request->input('categories', []));
         $product->tags()->sync($request->input('tags', []));
 
@@ -132,7 +133,8 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update($request->all());
+        //$product->update($request->all());
+		$product->update($request->only('name', 'description', 'price','categories','tags','photo'));
         $product->categories()->sync($request->input('categories', []));
         $product->tags()->sync($request->input('tags', []));
 
