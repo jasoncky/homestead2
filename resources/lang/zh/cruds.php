@@ -5,6 +5,10 @@ return [
         'title'          => '使用者管理',
         'title_singular' => '使用者管理',
     ],
+	'memberManagement'  => [
+        'title'          => '会员管理',
+        'title_singular' => '会员管理',
+    ], 
     'permission'        => [
         'title'          => '權限',
         'title_singular' => '權限',

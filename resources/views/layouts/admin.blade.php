@@ -165,11 +165,10 @@
   let colvisButtonTrans = '{{ trans('global.datatables.colvis') }}'
 
   let languages = {
-    'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json',
-        'zh': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Chinese-traditional.json',
-        'zh-Hans': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Chinese.json'
+    'en': 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/English.json',
+    'zh': 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/Chinese-traditional.json',
+    'zh-Hans': 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/Chinese.json'
   };
-
   $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, { className: 'btn' })
   $.extend(true, $.fn.dataTable.defaults, {
     language: {

@@ -5,6 +5,10 @@ return [
         'title'          => 'User management',
         'title_singular' => 'User management',
     ],
+	'memberManagement'  => [
+        'title'          => 'Member management',
+        'title_singular' => 'Member management',
+    ], 
     'permission'        => [
         'title'          => 'Permissions',
         'title_singular' => 'Permission',

@@ -250,4 +250,5 @@ return [
     'no_alerts'                            => 'No alerts',
     'calendar'                             => '日曆',
     'messenger'                            => 'Messenger',
+	'login_email_or_username'              => '用户电子邮件或用户名',
 ];

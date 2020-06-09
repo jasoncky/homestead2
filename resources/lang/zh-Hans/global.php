@@ -250,4 +250,5 @@ return [
     'no_alerts'                            => '没有快讯',
     'calendar'                             => '日历',
     'messenger'                            => '信使',
+    'login_email_or_username'              => '用户电子邮件或用户名',
 ];

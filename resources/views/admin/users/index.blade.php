@@ -91,7 +91,6 @@
   }
   dtButtons.push(deleteButton)
 @endcan
-
   let dtOverrideGlobals = {
     buttons: dtButtons,
     processing: true,

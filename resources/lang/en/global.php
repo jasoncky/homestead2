@@ -251,4 +251,5 @@ return [
     'calendar'                             => 'Calendar',
     'messenger'                            => 'Messenger',
 	'chart'								   => 'Chart',
+    'login_email_or_username'              => 'Email or username',
 ];
