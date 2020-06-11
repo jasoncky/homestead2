@@ -216,6 +216,26 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '52',
                 'title' => 'employee_delete',
             ],
+			[
+                'id'    => '53',
+                'title' => 'order_access',
+            ],
+			[
+                'id'    => '54',
+                'title' => 'order_show',
+            ],
+			[
+                'id'    => '55',
+                'title' => 'order_edit',
+            ],
+			[
+                'id'    => '56',
+                'title' => 'order_create',
+            ],
+			[
+                'id'    => '57',
+                'title' => 'order_delete',
+            ],
         ];
 
         Permission::insert($permissions);
