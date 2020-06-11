@@ -1,8 +1,6 @@
 <?php
 
-Route::redirect('/', '/login');
-Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.resend');
-Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
+//Route::redirect('/', '/login');
 Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home')->with('status', session('status'));
@@ -11,8 +9,12 @@ Route::get('/home', function () {
     return redirect()->route('admin.home');
 });
 
+Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.resend');
+Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
+
 // dropdown
 Route::get('admin/get_by_country', 'Admin\DropdownController@get_by_country')->name('admin.get_by_country');
+Route::get('admin/get_country', 'Admin\DropdownController@get_country')->name('admin.get_country');
 
 Auth::routes(['register' => false]);
 // Admin
@@ -24,8 +26,11 @@ Route::post('register', 'RegistrationController@store')->name('register');
 Route::get('pricing', 'PricingController@index')->name('pricing');
 Route::get('pricingselect/{planid}', 'PricingController@redirect');
 
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('search', 'HomeController@search')->name('search');
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth','active_user', 'twofactor']], function () {
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'AdminController@index')->name('home');
     Route::get('user-alerts/read', 'UserAlertsController@read');
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
@@ -58,9 +63,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('user-alerts', 'UserAlertsController');
 	
 	// Events
-    Route::delete('events/destroy', 'EventsController@massDestroy')->name('events.massDestroy');
-    Route::resource('events', 'EventsController');
-	Route::post('events/ajaxUpdate', 'EventsController@ajaxUpdate')->name('events.ajaxUpdate');
+    //Route::delete('events/destroy', 'EventsController@massDestroy')->name('events.massDestroy');
+    //Route::resource('events', 'EventsController');
+	//Route::post('events/ajaxUpdate', 'EventsController@ajaxUpdate')->name('events.ajaxUpdate');
+	
+	Route::delete('appointments/destroy', 'AppointmentsController@massDestroy')->name('appointments.massDestroy');
+    Route::resource('appointments', 'AppointmentsController');
+	Route::post('appointments/ajaxUpdate', 'AppointmentsController@ajaxUpdate')->name('appointments.ajaxUpdate');
 	
 	// Calendar
 	Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
@@ -94,4 +103,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	Route::post('members/media', 'MembersController@storeMedia')->name('members.storeMedia');
     Route::post('members/ckmedia', 'MembersController@storeCKEditorImages')->name('members.storeCKEditorImages');
     Route::resource('members', 'MembersController');
+	
+	//Teams
+	Route::delete('teams/destroy', 'TeamsController@massDestroy')->name('teams.massDestroy');
+    Route::resource('teams', 'TeamsController');
 });

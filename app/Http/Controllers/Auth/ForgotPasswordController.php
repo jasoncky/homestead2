@@ -19,4 +19,14 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+	protected function credentials(Request $request)
+	{
+		$field = filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)
+			? 'email'
+			: 'username';
+		return [
+			$field => $request->get('email')
+		];
+	}
 }

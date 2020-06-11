@@ -108,4 +108,44 @@ class User extends Authenticatable
 		$this->two_factor_expires_at = null;
 		$this->save();
 	}
+	
+	public function teams()
+    {
+        return $this->belongsToMany(Team::class);
+    }
+	
+	public function products()
+    {
+        return $this->hasMany(Product::class, 'created_by_id', 'id');
+    }
+	
+	public function orders()
+    {
+        return $this->hasMany(Order::class, 'created_by_id', 'id');
+    }
+	
+	public function events()
+    {
+        return $this->hasMany(Events::class, 'created_by_id', 'id');
+    }
+	
+	public function employees()
+    {
+        return $this->hasMany(Employee::class, 'created_by_id', 'id');
+    }
+	
+	public function members()
+    {
+        return $this->hasMany(Members::class, 'created_by_id', 'id');
+    }
+	
+	public function categories()
+    {
+        return $this->hasMany(ProductCategory::class, 'created_by_id', 'id');
+    }
+	
+	public function tags()
+    {
+        return $this->hasMany(ProductTag::class, 'created_by_id', 'id');
+    }
 }

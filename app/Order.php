@@ -3,10 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\MultiTenantModelTrait;
 
 class Order extends Model
 {
-    public $table = 'orders';
+    use SoftDeletes, MultiTenantModelTrait;
+	
+	public $table = 'orders';
 
     protected $dates = [
         'created_at',
@@ -20,6 +24,7 @@ class Order extends Model
         'deleted_at',
         'customer_name',
         'customer_email',
+		'created_by_id',
     ];
     
 	public static function boot()
@@ -31,5 +36,10 @@ class Order extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class)->withPivot(['quantity']);
+    }
+	
+	public function created_by()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 }

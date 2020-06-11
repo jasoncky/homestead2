@@ -51,6 +51,14 @@
                             @endif
                         </td>
                     </tr>
+					<tr>
+                        <th>
+                            {{ trans('cruds.employee.fields.created_by') }}
+                        </th>
+                        <td>
+                            {{ $employee->created_by->name }}
+                        </td>
+                    </tr>
                     <tr>
                         <th>
                             {{ trans('cruds.employee.fields.badges') }}

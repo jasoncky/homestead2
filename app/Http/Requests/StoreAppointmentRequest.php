@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Event;
+use App\Appointment;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreEventRequest extends FormRequest
+class StoreAppointmentRequest extends FormRequest
 {
     public function authorize()
     {

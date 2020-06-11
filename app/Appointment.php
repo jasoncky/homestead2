@@ -1,16 +1,16 @@
 <?php
 
 namespace App;
-
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\MultiTenantModelTrait;
 
-class Event extends Model
+class Appointment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, MultiTenantModelTrait;
 
-    public $table = 'events';
+    public $table = 'appointments';
 
     protected $dates = [
         'end_time',
@@ -30,24 +30,29 @@ class Event extends Model
     protected $fillable = [
         'name',
         'end_time',
-        'event_id',
+        'appointment_id',
         'start_time',
         'recurrence',
         'created_at',
         'updated_at',
         'deleted_at',
+		'created_by_id',
     ];
-    
 	
 	public static function boot()
 	{
 		parent::boot();
-		Event::observe(new \App\Observers\UserActionsObserver);
+		Appointment::observe(new \App\Observers\UserActionsObserver);
 	}
-	
-    public function events()
+    
+    public function created_by()
     {
-        return $this->hasMany(Event::class, 'event_id', 'id');
+        return $this->belongsTo(User::class, 'created_by_id');
+    }
+	
+	public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'appointment_id', 'id');
     }
 
     public function getStartTimeAttribute($value)
@@ -70,9 +75,9 @@ class Event extends Model
         $this->attributes['end_time'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 
-    public function event()
+    public function appointment()
     {
-        return $this->belongsTo(Event::class, 'event_id');
+        return $this->belongsTo(Appointment::class, 'appointment_id');
     }
 
     public function saveQuietly()
@@ -80,5 +85,10 @@ class Event extends Model
         return static::withoutEvents(function () {
             return $this->save();
         });
+    }
+	
+	public function setCreatedByIdAttribute($input)
+    {
+        $this->attributes['created_by_id'] = $input ? $input : null;
     }
 }

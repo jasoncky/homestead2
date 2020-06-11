@@ -3,8 +3,8 @@
 @can('event_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.events.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.event.title_singular') }}
+            <a class="btn btn-success" href="{{ route("admin.appointments.create") }}">
+                {{ trans('global.add') }} {{ trans('cruds.appointment.title_singular') }}
             </a>
         </div>
     </div>
@@ -25,10 +25,9 @@
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-             <input type="hidden" name="event_id" id="event_id" value="" />
 			 <input type="hidden" name="appointment_id" id="appointment_id" value="" />
 			<div class="modal-body">
-                <h4>Edit Event</h4>
+                <h4>Edit appointment</h4>
                 Start time:
                 <br />
                 <input type="text" class="form-control datetime" name="start_time" id="start_time" required>
@@ -56,12 +55,12 @@
 <script>
     $(document).ready(function () {
             // page is now ready, initialize the calendar...
-            events={!! json_encode($events) !!};
+            events={!! json_encode($appointments) !!};
+			console.log(events);
             $('#calendar').fullCalendar({
                 // put your options and callbacks here
                 events: events,
 				eventClick: function(calEvent, jsEvent, view) {
-					$('#event_id').val(calEvent._id);
 					$('#appointment_id').val(calEvent.id);
 					$('#start_time').val(moment(calEvent.start).format('YYYY-MM-DD HH:mm:ss'));
 					$('#finish_time').val(moment(calEvent.end).format('YYYY-MM-DD HH:mm:ss'));
@@ -84,15 +83,16 @@
 						end_time: $('#finish_time').val(),
 					};
 
-					var url = "{{ route('admin.events.ajaxUpdate') }}";
+					var url = "{{ route('admin.appointments.ajaxUpdate') }}";
 					$.post(url, data, function( result ) {
-						$('#calendar').fullCalendar('removeEvents', $('#event_id').val());
+						$('#calendar').fullCalendar('removeEvents', $('#appointment_id').val());
 
 						$('#calendar').fullCalendar('renderEvent', {
-							id:result.events.id,
-							title: result.events.name,
-							start: result.events.start_time,
-							end: result.events.end_time
+							//console.log(result);
+							id:result.appointments.id,
+							title: result.appointments.name,
+							start: result.appointments.start_time,
+							end: result.appointments.end_time
 						}, true);
 
 						$('#editModal').modal('hide');

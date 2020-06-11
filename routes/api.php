@@ -1,5 +1,7 @@
 <?php
 
+Route::get('api/v1/country/search', 'Api\V1\Admin\CountryApiController@search')->name('api.country.search');
+
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:api']], function () {
     // Permissions
     Route::apiResource('permissions', 'PermissionsApiController');
@@ -25,7 +27,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('user-alerts', 'UserAlertsApiController');
 	
 	// Events
-    Route::apiResource('events', 'EventsApiController');
+    //Route::apiResource('events', 'EventsApiController');
+	Route::apiResource('appointments', 'AppointmentsApiController');
 	
 	// Badges
     Route::post('badges/media', 'BadgesApiController@storeMedia')->name('badges.storeMedia');
@@ -44,4 +47,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 	// Members
 	Route::post('members/media', 'MembersApiController@storeMedia')->name('members.storeMedia');
     Route::apiResource('members', 'TransactionsApiController');
+	
+	// Teams
+	Route::get('team-members/{id}', ['uses' => 'TeamMembersController@show', 'as' => 'team-members.show']);
+	
+	
 });

@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
+use App\Traits\MultiTenantModelTrait;
 
 class Badge extends Model implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait;
+    use SoftDeletes, HasMediaTrait, MultiTenantModelTrait;
 
     public $table = 'badges';
 
@@ -29,6 +30,7 @@ class Badge extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
+		'created_by_id',
     ];
 	
 	public static function boot()
@@ -57,5 +59,10 @@ class Badge extends Model implements HasMedia
         }
 
         return $file;
+    }
+	
+	public function created_by()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 }

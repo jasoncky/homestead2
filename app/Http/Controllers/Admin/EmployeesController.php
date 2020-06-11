@@ -60,8 +60,12 @@ class EmployeesController extends Controller
 
                 return '';
             });
+			
+			$table->editColumn('created_by', function ($row) {
+				return $row->created_by->name ? $row->created_by->name : "";
+			});
 
-            $table->rawColumns(['actions', 'placeholder', 'photo']);
+            $table->rawColumns(['actions', 'placeholder', 'photo','created_by']);
 
             return $table->make(true);
         }

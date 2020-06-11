@@ -81,21 +81,21 @@
     aaSorting: [],
     ajax: "{{ route('admin.employees.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{
-    data: null,
-    name: 'name',
-    render: data => {
-        var badges = "";
-        data.badges.forEach(badge => {
-            badges += '<img class="mr-1" src="'+badge.icon.thumbnail+'" alt="'+badge.name+'">'
-        });
-        return data.name+'<br><small>'+data.position+'</small><br>'+badges;
-    }
-},
-{ data: 'photo', name: 'photo', sortable: false, searchable: false },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+		{ data: 'placeholder', name: 'placeholder' },
+		{ data: 'id', name: 'id' },
+		{
+			data: null,
+			name: 'name',
+			render: data => {
+				var badges = "";
+				data.badges.forEach(badge => {
+					badges += '<img class="mr-1" src="'+badge.icon.thumbnail+'" alt="'+badge.name+'">'
+				});
+				return data.name+'<br><small>'+data.position+'</small><br>'+badges;
+			}
+		},
+		{ data: 'photo', name: 'photo', sortable: false, searchable: false },
+		{ data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],
     pageLength: 100,

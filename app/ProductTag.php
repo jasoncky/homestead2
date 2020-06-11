@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\MultiTenantModelTrait;
 
 class ProductTag extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, MultiTenantModelTrait;
 
     public $table = 'product_tags';
 
@@ -23,6 +24,7 @@ class ProductTag extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+		'created_by_id',
     ];
 	
 	public static function boot()
@@ -34,5 +36,10 @@ class ProductTag extends Model
     public function tagProducts()
     {
         return $this->belongsToMany(Product::class);
+    }
+	
+	public function created_by()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 }

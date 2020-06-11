@@ -8,7 +8,11 @@ return [
 	'memberManagement'  => [
         'title'          => 'Member management',
         'title_singular' => 'Member management',
-    ], 
+    ],
+	'employeeManagement'  => [
+        'title'          => 'Employee management',
+        'title_singular' => 'Employee management',
+    ], 	
     'permission'        => [
         'title'          => 'Permissions',
         'title_singular' => 'Permission',
@@ -35,6 +39,24 @@ return [
             'title_helper'       => '',
             'permissions'        => 'Permissions',
             'permissions_helper' => '',
+            'created_at'         => 'Created at',
+            'created_at_helper'  => '',
+            'updated_at'         => 'Updated at',
+            'updated_at_helper'  => '',
+            'deleted_at'         => 'Deleted at',
+            'deleted_at_helper'  => '',
+        ],
+    ],
+	'team'              => [
+        'title'          => 'Teams',
+        'title_singular' => 'Team',
+        'fields'         => [
+            'id'                 => 'ID',
+            'id_helper'          => '',
+            'name'              => 'Name',
+            'name_helper'       => '',
+            'users'        => 'Users',
+            'users_helper' => '',
             'created_at'         => 'Created at',
             'created_at_helper'  => '',
             'updated_at'         => 'Updated at',
@@ -187,9 +209,9 @@ return [
             'updated_at_helper' => '',
         ],
     ],
-	'event'          => [
-        'title'          => 'All Events',
-        'title_singular' => 'Event',
+	'appointment'          => [
+        'title'          => 'All Appointments',
+        'title_singular' => 'Appointments',
         'fields'         => [
             'id'                => 'ID',
             'id_helper'         => '',
@@ -207,8 +229,8 @@ return [
             'updated_at_helper' => '',
             'deleted_at'        => 'Deleted at',
             'deleted_at_helper' => '',
-            'event'             => 'Event',
-            'event_helper'      => '',
+            'appointment'             => 'Appointment',
+            'appointment_helper'      => '',
         ],
     ],
 	'badge'          => [
@@ -255,6 +277,8 @@ return [
             'updated_at_helper' => '',
             'deleted_at'        => 'Deleted at',
             'deleted_at_helper' => '',
+			'created_by'		=> 'Created by',
+			'created_by_helper' => '',
         ],
     ],
 	'order'          => [

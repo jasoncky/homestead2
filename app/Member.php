@@ -9,10 +9,11 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use App\Traits\MultiTenantModelTrait;
 
 class Member extends Model implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait;
+    use SoftDeletes, HasMediaTrait, MultiTenantModelTrait;
 
     public $table = 'members';
 
@@ -40,6 +41,7 @@ class Member extends Model implements HasMedia
 		'provider', 
 		'provider_id',
 		'status',
+		'created_by_id',
     ];
 	
 	const STATUS_COLOR = [
@@ -88,5 +90,10 @@ class Member extends Model implements HasMedia
         }
 
         return $file;
+    }
+	
+	public function created_by()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 }

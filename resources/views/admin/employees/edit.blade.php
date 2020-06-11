@@ -44,14 +44,13 @@
 			<div class="form-group">
 				<label for="country">{{ trans('cruds.employee.fields.country') }}</label>
 				<select name="country" id="country" class="form-control">
-					<option value="">{{ trans('global.pleaseSelect') }}</option>
-					<option value="Malaysia">Malaysia</option>
+					<option value="{{ $employee->country }}">{{ $employee->country }}</option>
 				</select>
 			</div>
 			<div class="form-group {{ $errors->has('city_id') ? 'has-error' : '' }}">
 				<label for="city">{{ trans('cruds.employee.fields.city') }}</label>
 				<select name="city" id="city" class="form-control">
-					<option value="">{{ trans('global.pleaseSelect') }}</option>
+					<option value="{{ $employee->city }}">{{ $employee->city }}</option>
 				</select>
 			</div>
             <div class="form-group">
@@ -148,5 +147,17 @@ $("#country").change(function(){
 		}
 	});
 });
+
+$(document).ready(function() {
+    $('#country').select2({
+        minimumInputLength: 3,
+        ajax: {
+            url: '{{ route("api.country.search") }}',
+            dataType: 'json',
+        },
+    });
+});
+
+
 </script>
 @endsection

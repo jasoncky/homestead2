@@ -9,20 +9,20 @@ class SystemCalendarController extends Controller
 {
     public $sources = [
         [
-            'model'      => '\\App\\Event',
+            'model'      => '\\App\\Appointment',
             'date_field' => 'start_time',
             'end_field'  => 'end_time',
             'field'      => 'name',
             'prefix'     => '',
             'suffix'     => '',
 			'id'         => 'id',
-            'route'      => 'admin.events.edit',
+            'route'      => 'admin.appointments.edit',
         ],
     ];
 
     public function index()
     {
-        $events = [];
+        $appointments = [];
 
         foreach ($this->sources as $source) {
             foreach ($source['model']::all() as $model) {
@@ -39,7 +39,7 @@ class SystemCalendarController extends Controller
                     'end'   => $model->{$source['end_field']},
                     'url'   => route($source['route'], $model->id),
                 ];*/
-				$events[] = [
+				$appointments[] = [
                     'id' => $model->{$source['id']},
 					'title' => trim($source['prefix'] . " " . $model->{$source['field']}
                         . " " . $source['suffix']),
@@ -49,6 +49,6 @@ class SystemCalendarController extends Controller
             }
         }
 
-        return view('admin.calendar.calendar', compact('events'));
+        return view('admin.calendar.calendar', compact('appointments'));
     }
 }

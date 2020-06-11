@@ -22,7 +22,7 @@
                     </a>
                 </li>
                 @can('user_management_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/permissions*') ? 'menu-open' : '' }} {{ request()->is('admin/roles*') ? 'menu-open' : '' }} {{ request()->is('admin/users*') ? 'menu-open' : '' }}">
+                    <li class="nav-item has-treeview {{ request()->is('admin/permissions*') ? 'menu-open' : '' }} {{ request()->is('admin/roles*') ? 'menu-open' : '' }} {{ request()->is('admin/teams*') ? 'menu-open' : '' }} {{ request()->is('admin/users*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw fas fa-users">
 
@@ -93,6 +93,34 @@
                                         </i>
                                         <p>
                                             <span>{{ trans('cruds.member.title') }}</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+				
+				@can('employee_access')
+                    <li class="nav-item has-treeview {{ request()->is('adminemployees*') ? 'menu-open' : '' }} {{ request()->is('admin/employees*') ? 'menu-open' : '' }} {{ request()->is('admin/employees*') ? 'menu-open' : '' }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw fas fa-users">
+
+                            </i>
+                            <p>
+                                <span>{{ trans('cruds.employeeManagement.title') }}</span>
+                                <i class="right fa fa-fw fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('employee_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.employees.index") }}" class="nav-link {{ request()->is('admin/employees') || request()->is('admin/employees/*') ? 'active' : '' }}">
+                                        <i class="fa-fw fas fa-user">
+
+                                        </i>
+                                        <p>
+                                            <span>{{ trans('cruds.employee.title') }}</span>
                                         </p>
                                     </a>
                                 </li>
@@ -172,16 +200,6 @@
                     </a>
                 </li>
 				@endcan
-				@can('employee_access')
-					<li class="nav-item">
-						<a href="{{ route("admin.employees.index") }}" class="nav-link {{ request()->is('admin/employees') || request()->is('admin/employees/*') ? 'active' : '' }}">
-							<i class="fa-fw fas fa-briefcase nav-icon">
-
-							</i>
-							{{ trans('cruds.employee.title') }}
-						</a>
-					</li>
-				@endcan
                 @can('user_alert_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.user-alerts.index") }}" class="nav-link {{ request()->is('admin/user-alerts') || request()->is('admin/user-alerts/*') ? 'active' : '' }}">
@@ -204,11 +222,11 @@
 				</li>
 				@can('event_access')
 					<li class="nav-item">
-						<a href="{{ route("admin.events.index") }}" class="nav-link {{ request()->is('admin/events') || request()->is('admin/events/*') ? 'active' : '' }}">
+						<a href="{{ route("admin.appointments.index") }}" class="nav-link {{ request()->is('admin/appointments') || request()->is('admin/appointments/*') ? 'active' : '' }}">
 							<i class="fa-fw fas fa-calendar nav-icon">
 
 							</i>
-							{{ trans('cruds.event.title') }}
+							{{ trans('cruds.appointment.title') }}
 						</a>
 					</li>
 				@endcan

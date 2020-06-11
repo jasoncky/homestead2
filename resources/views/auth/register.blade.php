@@ -25,6 +25,23 @@
                             </div>
                         </div>
 
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fa fa-user fa-fw"></i>
+								</span>
+							</div>
+							<input type="text" name="username" 
+								class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" r
+								equired placeholder="{{ trans('global.login_username') }}" 
+								value="{{ old('username', null) }}">
+							@if($errors->has('username'))
+								<div class="invalid-feedback">
+									{{ $errors->first('username') }}
+								</div>
+							@endif
+						</div>
+
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 

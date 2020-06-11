@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Notifications\TwoFactorCode;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Notifications\TwoFactorCode;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -54,7 +55,6 @@ class LoginController extends Controller
     {
         if ($user->status == 'Active')
 		{
-			
 			//$user->generateTwoFactorCode();
 			//$details = [
 			//	'two_factor_code' => $user->two_factor_code
