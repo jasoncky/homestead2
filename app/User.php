@@ -28,6 +28,7 @@ class User extends Authenticatable
         'deleted_at',
         'email_verified_at',
 		'two_factor_expires_at',
+		'last_login_at',
     ];
 
     protected $fillable = [
@@ -43,6 +44,7 @@ class User extends Authenticatable
         'two_factor_expires_at',
 		'status',
 		'username',
+		'last_login_at',
     ];
 	
 	const STATUS_COLOR = [

@@ -45,6 +45,9 @@
                         {{ trans('cruds.member.fields.email') }}
                     </th>
 					<th>
+                        {{ trans('cruds.member.fields.phone') }}
+                    </th>
+					<th>
                         {{ trans('cruds.member.fields.provider') }}
                     </th>
 					<th>
@@ -146,6 +149,7 @@ $(function () {
 		{ data: 'id', name: 'id' },
 		{ data: 'name', name: 'name' },
 		{ data: 'email', name: 'email' },
+		{ data: 'phone', name: 'phone' },
 		{ data: 'provider', name: 'provider' },
 		{ data: 'status', name: 'status' },
 		{ data: 'extaactioncolumn', name: 'extaactioncolumn' },

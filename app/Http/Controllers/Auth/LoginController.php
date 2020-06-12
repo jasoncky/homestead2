@@ -55,6 +55,9 @@ class LoginController extends Controller
     {
         if ($user->status == 'Active')
 		{
+			$user->update([
+				'last_login_at' => now(),
+			]);
 			//$user->generateTwoFactorCode();
 			//$details = [
 			//	'two_factor_code' => $user->two_factor_code

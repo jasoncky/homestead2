@@ -48,8 +48,11 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 	Route::post('members/media', 'MembersApiController@storeMedia')->name('members.storeMedia');
     Route::apiResource('members', 'TransactionsApiController');
 	
-	// Teams
-	Route::get('team-members/{id}', ['uses' => 'TeamMembersController@show', 'as' => 'team-members.show']);
+	 // Clients
+    Route::apiResource('clients', 'ClientsApiController');
+
+    // Appointments
+    Route::apiResource('appointments', 'AppointmentsApiController');
 	
 	
 });

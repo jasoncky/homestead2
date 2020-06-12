@@ -22,7 +22,7 @@ class EmployeesController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = Employee::with(['badges'])->select(sprintf('%s.*', (new Employee)->table));
+            $query = Employee::query()->select(sprintf('%s.*', (new Employee)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -49,6 +49,12 @@ class EmployeesController extends Controller
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : "";
             });
+			 $table->editColumn('email', function ($row) {
+                return $row->email ? $row->email : "";
+            });
+			$table->editColumn('phone', function ($row) {
+                return $row->phone ? $row->phone : "";
+            });
             $table->editColumn('photo', function ($row) {
                 if ($photo = $row->photo) {
                     return sprintf(
@@ -61,9 +67,9 @@ class EmployeesController extends Controller
                 return '';
             });
 			
-			$table->editColumn('created_by', function ($row) {
+			/*$table->editColumn('created_by', function ($row) {
 				return $row->created_by->name ? $row->created_by->name : "";
-			});
+			});*/
 
             $table->rawColumns(['actions', 'placeholder', 'photo','created_by']);
 
@@ -85,7 +91,7 @@ class EmployeesController extends Controller
     public function store(StoreEmployeeRequest $request)
     {
         //$employee = Employee::create($request->all());
-		$employee = Employee::create($request->only('name', 'position', 'country','city','photo','badges'));
+		$employee = Employee::create($request->only('name', 'position', 'country','city','photo','badges','email','phone'));
         $employee->badges()->sync($request->input('badges', []));
 
         if ($request->input('photo', false)) {
@@ -113,7 +119,7 @@ class EmployeesController extends Controller
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
         //$employee->update($request->all());
-		$employee->update($request->only('name', 'position', 'country','city','photo','badges'));
+		$employee->update($request->only('name', 'position', 'country','city','photo','badges','email','phone'));
         $employee->badges()->sync($request->input('badges', []));
 
         if ($request->input('photo', false)) {

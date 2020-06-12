@@ -7,7 +7,7 @@ use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class UpdateEventRequest extends FormRequest
+class UpdateAppointmentRequest extends FormRequest
 {
     public function authorize()
     {
@@ -32,6 +32,16 @@ class UpdateEventRequest extends FormRequest
             ],
             'recurrence' => [
                 'required',
+            ],
+			'client_id'   => [
+                'required',
+                'integer',
+            ],
+			'services.*'  => [
+                'integer',
+            ],
+            'services'    => [
+                'array',
             ],
         ];
     }

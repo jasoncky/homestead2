@@ -39,6 +39,14 @@
                             {{ $member->email }}
                         </td>
                     </tr>
+					<tr>
+                        <th>
+                            {{ trans('cruds.member.fields.phone') }}
+                        </th>
+                        <td>
+                            {{ $member->phone }}
+                        </td>
+                    </tr>
                     <tr>
                         <th>
                             {{ trans('cruds.member.fields.provider') }}

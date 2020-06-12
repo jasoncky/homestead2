@@ -33,6 +33,16 @@ class StoreAppointmentRequest extends FormRequest
             'recurrence' => [
                 'required',
             ],
+			'client_id'   => [
+                'required',
+                'integer',
+            ],
+			'services.*'  => [
+                'integer',
+            ],
+            'services'    => [
+                'array',
+            ],
         ];
     }
 }

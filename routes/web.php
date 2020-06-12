@@ -104,7 +104,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('members/ckmedia', 'MembersController@storeCKEditorImages')->name('members.storeCKEditorImages');
     Route::resource('members', 'MembersController');
 	
-	//Teams
-	Route::delete('teams/destroy', 'TeamsController@massDestroy')->name('teams.massDestroy');
-    Route::resource('teams', 'TeamsController');
+	 // Services
+    Route::delete('services/destroy', 'ServicesController@massDestroy')->name('services.massDestroy');
+    Route::resource('services', 'ServicesController');
+	
+	// Clients
+    Route::delete('clients/destroy', 'ClientsController@massDestroy')->name('clients.massDestroy');
+    Route::resource('clients', 'ClientsController');
 });

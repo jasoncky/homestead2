@@ -39,6 +39,22 @@
                             {{ $employee->position }}
                         </td>
                     </tr>
+					<tr>
+                        <th>
+                            {{ trans('cruds.employee.fields.email') }}
+                        </th>
+                        <td>
+                            {{ $employee->email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.employee.fields.phone') }}
+                        </th>
+                        <td>
+                            {{ $employee->phone }}
+                        </td>
+                    </tr>
                     <tr>
                         <th>
                             {{ trans('cruds.employee.fields.photo') }}
@@ -51,6 +67,7 @@
                             @endif
                         </td>
                     </tr>
+					@if($employee->created_by_id)
 					<tr>
                         <th>
                             {{ trans('cruds.employee.fields.created_by') }}
@@ -59,6 +76,7 @@
                             {{ $employee->created_by->name }}
                         </td>
                     </tr>
+					@endif
                     <tr>
                         <th>
                             {{ trans('cruds.employee.fields.badges') }}
@@ -67,6 +85,14 @@
                             @foreach($employee->badges as $key => $badges)
                                 <span class="label label-info">{{ $badges->name }}</span>
                             @endforeach
+                        </td>
+                    </tr>
+					<tr>
+                        <th>
+                            {{ trans('cruds.employee.fields.phone') }}
+                        </th>
+                        <td>
+                            {{ $employee->phone }}
                         </td>
                     </tr>
                 </tbody>

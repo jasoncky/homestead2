@@ -27,6 +27,9 @@ class EmployeesApiController extends Controller
     {
         //$employee = Employee::create($request->all());
 		$employee = Employee::create($request->only('name', 'position', 'country','city','photo','badges'));
+		if ($request->input('photo', false)) {
+            $employee->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
+        }
         $employee->badges()->sync($request->input('badges', []));
 
         return (new EmployeeResource($employee))
@@ -46,7 +49,13 @@ class EmployeesApiController extends Controller
         //$employee->update($request->all());
         $employee->update($request->only('name', 'position', 'country','city','photo','badges'));
 		$employee->badges()->sync($request->input('badges', []));
-
+		if ($request->input('photo', false)) {
+            if (!$employee->photo || $request->input('photo') !== $employee->photo->file_name) {
+                $employee->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
+            }
+        } elseif ($employee->photo) {
+            $employee->photo->delete();
+        }
         return (new EmployeeResource($employee))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);

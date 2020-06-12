@@ -236,6 +236,47 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '57',
                 'title' => 'order_delete',
             ],
+			
+			[
+                'id'    => '58',
+                'title' => 'service_access',
+            ],
+			[
+                'id'    => '59',
+                'title' => 'service_show',
+            ],
+			[
+                'id'    => '60',
+                'title' => 'service_edit',
+            ],
+			[
+                'id'    => '61',
+                'title' => 'service_create',
+            ],
+			[
+                'id'    => '62',
+                'title' => 'service_delete',
+            ],
+			[
+                'id'    => '63',
+                'title' => 'client_access',
+            ],
+			[
+                'id'    => '64',
+                'title' => 'client_show',
+            ],
+			[
+                'id'    => '65',
+                'title' => 'client_edit',
+            ],
+			[
+                'id'    => '66',
+                'title' => 'client_create',
+            ],
+			[
+                'id'    => '67',
+                'title' => 'client_delete',
+            ],
         ];
 
         Permission::insert($permissions);

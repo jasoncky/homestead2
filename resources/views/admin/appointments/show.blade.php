@@ -58,6 +58,48 @@
                             {{ $appointment->appointment->name ?? '' }}
                         </td>
                     </tr>
+					<tr>
+                        <th>
+                            Services
+                        </th>
+                        <td>
+                            @foreach($appointment->services as $id => $services)
+                                <span class="label label-info label-many">{{ $services->name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+					<tr>
+                        <th>
+                            {{ trans('cruds.appointment.fields.client') }}
+                        </th>
+                        <td>
+                            {{ $appointment->client->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.appointment.fields.employee') }}
+                        </th>
+                        <td>
+                            {{ $appointment->employee->name ?? '' }}
+                        </td>
+                    </tr>
+					<tr>
+                        <th>
+                            {{ trans('cruds.appointment.fields.venue') }}
+                        </th>
+                        <td>
+                            {!! $appointment->venue !!}
+                        </td>
+                    </tr>
+					<tr>
+                        <th>
+                            {{ trans('cruds.appointment.fields.comments') }}
+                        </th>
+                        <td>
+                            {!! $appointment->comments !!}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <a style="margin-top:20px;" class="btn btn-default" href="{{ url()->previous() }}">

@@ -69,6 +69,18 @@
                                     </a>
                                 </li>
                             @endcan
+							@can('user_alert_access')
+								<li class="nav-item">
+									<a href="{{ route("admin.user-alerts.index") }}" class="nav-link {{ request()->is('admin/user-alerts') || request()->is('admin/user-alerts/*') ? 'active' : '' }}">
+										<i class="fa-fw fas fa-bell">
+
+										</i>
+										<p>
+											<span>{{ trans('cruds.userAlert.title') }}</span>
+										</p>
+									</a>
+								</li>
+							@endcan
                         </ul>
                     </li>
                 @endcan
@@ -128,6 +140,47 @@
                         </ul>
                     </li>
                 @endcan
+				
+				@can('service_access')
+                <li class="nav-item">
+                    <a href="{{ route("admin.services.index") }}" class="nav-link {{ request()->is('admin/services') || request()->is('admin/services/*') ? 'active' : '' }}">
+                        <i class="fa-fw fas fa-cogs nav-icon">
+
+                        </i>
+                        {{ trans('cruds.service.title') }}
+                    </a>
+                </li>
+				@endcan
+				
+				@can('client_access')
+                <li class="nav-item">
+                    <a href="{{ route("admin.clients.index") }}" class="nav-link {{ request()->is('admin/clients') || request()->is('admin/clients/*') ? 'active' : '' }}">
+                        <i class="fa-fw fas fa-cogs nav-icon">
+
+                        </i>
+                        {{ trans('cruds.client.title') }}
+                    </a>
+                </li>
+				@endcan
+				
+				<li class="nav-item">
+                <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is('admin/system-calendar') || request()->is('admin/system-calendar/*') ? 'active' : '' }}">
+                    <i class="nav-icon fa-fw fas fa-calendar">
+
+                    </i>
+                    {{ trans('global.systemCalendar') }}
+                </a>
+				</li>
+				@can('event_access')
+					<li class="nav-item">
+						<a href="{{ route("admin.appointments.index") }}" class="nav-link {{ request()->is('admin/appointments') || request()->is('admin/appointments/*') ? 'active' : '' }}">
+							<i class="fa-fw fas fa-calendar nav-icon">
+
+							</i>
+							{{ trans('cruds.appointment.title') }}
+						</a>
+					</li>
+				@endcan
 				
                 @can('product_management_access')
                     <li class="nav-item has-treeview {{ request()->is('admin/product-categories*') ? 'menu-open' : '' }} {{ request()->is('admin/product-tags*') ? 'menu-open' : '' }} {{ request()->is('admin/products*') ? 'menu-open' : '' }}">
@@ -200,36 +253,7 @@
                     </a>
                 </li>
 				@endcan
-                @can('user_alert_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.user-alerts.index") }}" class="nav-link {{ request()->is('admin/user-alerts') || request()->is('admin/user-alerts/*') ? 'active' : '' }}">
-                            <i class="fa-fw fas fa-bell">
-
-                            </i>
-                            <p>
-                                <span>{{ trans('cruds.userAlert.title') }}</span>
-                            </p>
-                        </a>
-                    </li>
-                @endcan
-				<li class="nav-item">
-                <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is('admin/system-calendar') || request()->is('admin/system-calendar/*') ? 'active' : '' }}">
-                    <i class="nav-icon fa-fw fas fa-calendar">
-
-                    </i>
-                    {{ trans('global.systemCalendar') }}
-                </a>
-				</li>
-				@can('event_access')
-					<li class="nav-item">
-						<a href="{{ route("admin.appointments.index") }}" class="nav-link {{ request()->is('admin/appointments') || request()->is('admin/appointments/*') ? 'active' : '' }}">
-							<i class="fa-fw fas fa-calendar nav-icon">
-
-							</i>
-							{{ trans('cruds.appointment.title') }}
-						</a>
-					</li>
-				@endcan
+                
 				@can('transaction_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.transactions.index") }}" class="nav-link {{ request()->is('admin/transactions') || request()->is('admin/transactions/*') ? 'active' : '' }}">

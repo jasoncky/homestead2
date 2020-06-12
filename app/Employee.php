@@ -32,6 +32,10 @@ class Employee extends Model implements HasMedia
         'updated_at',
         'deleted_at',
 		'created_by_id',
+		'country',
+		'city',
+		'email',
+		'phone',
     ];
 	
 	public static function boot()

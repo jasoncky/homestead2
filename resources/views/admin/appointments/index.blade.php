@@ -40,6 +40,21 @@
                         <th>
                             {{ trans('cruds.appointment.fields.appointment') }}
                         </th>
+						<th>
+							{{ trans('cruds.appointment.fields.client') }}
+						</th>
+						<th>
+							{{ trans('cruds.appointment.fields.employee') }}
+						</th>
+						<th>
+							{{ trans('cruds.appointment.fields.venue') }}
+						</th>
+						<th>
+							{{ trans('cruds.appointment.fields.comments') }}
+						</th>
+						<th>
+							{{ trans('cruds.appointment.fields.services') }}
+						</th>
                         <th class="no-sort">
                             &nbsp;
                         </th>
@@ -100,6 +115,11 @@
 		{ data: 'end_time', name: 'end_time' },
 		{ data: 'recurrence', name: 'recurrence' },
 		{ data: 'appointment', name: 'appointment' },
+		{ data: 'client_name', name: 'client.name' },
+		{ data: 'employee_name', name: 'employee.name' },
+		{ data: 'venue', name: 'venue' },
+		{ data: 'comments', name: 'comments' },
+		{ data: 'services', name: 'services.name' },
 		{ data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],

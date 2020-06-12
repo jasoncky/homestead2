@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0ab17258be96bb11b728e83ee62fee1",
+    "content-hash": "282d19c7152758d218a850dc5ebcd2c4",
     "packages": [
         {
             "name": "bugsnag/bugsnag",
@@ -1667,16 +1667,16 @@
         },
         {
             "name": "laraveldaily/laravel-charts",
-            "version": "0.1.14",
+            "version": "0.1.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelDaily/laravel-charts.git",
-                "reference": "c90e5e49094ceeab9e38fd741d89e230315efcb0"
+                "reference": "6edaecf6d9983c71897c6c76727169745d6b38d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelDaily/laravel-charts/zipball/c90e5e49094ceeab9e38fd741d89e230315efcb0",
-                "reference": "c90e5e49094ceeab9e38fd741d89e230315efcb0",
+                "url": "https://api.github.com/repos/LaravelDaily/laravel-charts/zipball/6edaecf6d9983c71897c6c76727169745d6b38d2",
+                "reference": "6edaecf6d9983c71897c6c76727169745d6b38d2",
                 "shasum": ""
             },
             "type": "library",
@@ -1703,7 +1703,7 @@
                 }
             ],
             "description": "Create charts and reports from Laravel",
-            "time": "2020-02-29T17:20:31+00:00"
+            "time": "2020-05-18T11:17:50+00:00"
         },
         {
             "name": "lcobucci/jwt",

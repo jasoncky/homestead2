@@ -71,6 +71,30 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.employee.fields.badges_helper') }}</span>
             </div>
+			<div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+                <label for="email">{{ trans('cruds.employee.fields.email') }}</label>
+                <input type="email" id="email" name="email" class="form-control" value="{{ old('email', isset($employee) ? $employee->email : '') }}">
+                @if($errors->has('email'))
+                    <em class="invalid-feedback">
+                        {{ $errors->first('email') }}
+                    </em>
+                @endif
+                <p class="helper-block">
+                    {{ trans('cruds.employee.fields.email_helper') }}
+                </p>
+            </div>
+            <div class="form-group {{ $errors->has('phone') ? 'has-error' : '' }}">
+                <label for="phone">{{ trans('cruds.employee.fields.phone') }}</label>
+                <input type="text" id="phone" name="phone" class="form-control" value="{{ old('phone', isset($employee) ? $employee->phone : '') }}">
+                @if($errors->has('phone'))
+                    <em class="invalid-feedback">
+                        {{ $errors->first('phone') }}
+                    </em>
+                @endif
+                <p class="helper-block">
+                    {{ trans('cruds.employee.fields.phone_helper') }}
+                </p>
+            </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

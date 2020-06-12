@@ -30,6 +30,18 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.member.fields.email_helper') }}</span>
             </div>
+			<div class="form-group {{ $errors->has('phone') ? 'has-error' : '' }}">
+                <label for="phone">{{ trans('cruds.member.fields.phone') }}</label>
+                <input type="text" id="phone" name="phone" class="form-control" value="{{ old('phone', isset($member) ? $member->phone : '') }}">
+                @if($errors->has('phone'))
+                    <em class="invalid-feedback">
+                        {{ $errors->first('phone') }}
+                    </em>
+                @endif
+                <p class="helper-block">
+                    {{ trans('cruds.member.fields.phone_helper') }}
+                </p>
+            </div>
 			<div class="form-group">
                 <label class="required" for="password">{{ trans('cruds.member.fields.password') }}</label>
                 <input class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" type="password" name="password" id="password">

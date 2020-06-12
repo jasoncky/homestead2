@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
-use App\Event;
+use App\Appointment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
@@ -11,47 +11,45 @@ use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EventsApiController extends Controller
+class AppointmentsApiController extends Controller
 {
     public function index()
     {
         abort_if(Gate::denies('event_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new EventResource(Event::with(['event'])->get());
+		return new AppointmentResource(Appointment::with(['appointment','client', 'employee', 'services'])->get());
     }
 
-    public function store(StoreEventRequest $request)
+    public function store(StoreAppointmentRequest $request)
     {
-        //$event = Event::create($request->all());
-		$event = Event::create($request->only('name', 'start_time', 'end_time','recurrence'));
-
-        return (new EventResource($event))
+        $appointment = Appointment::create($request->only('name', 'start_time', 'end_time','recurrence'));
+		$appointment->services()->sync($request->input('services', []));
+        return (new AppointmentResource($appointment))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(Event $event)
+    public function show(Appointment $event)
     {
         abort_if(Gate::denies('event_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new EventResource($event->load(['event']));
+        return new AppointmentResource($appointment->load(['appointment','client', 'employee', 'services']));
     }
 
-    public function update(UpdateEventRequest $request, Event $event)
+    public function update(UpdateAppointmentRequest $request, Appointment $appointment)
     {
         //$event->update($request->all());
-		$event->update($request->only('name', 'start_time', 'end_time','recurrence'));
-
-        return (new EventResource($event))
+		$appointment->update($request->only('name', 'start_time', 'end_time','recurrence'));
+		$appointment->services()->sync($request->input('services', []));
+        return (new AppointmentResource($appointment))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Event $event)
+    public function destroy(Appointment $appointment)
     {
         abort_if(Gate::denies('event_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $event->delete();
+        $appointment->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

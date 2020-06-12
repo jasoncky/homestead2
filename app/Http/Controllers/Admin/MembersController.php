@@ -71,6 +71,9 @@ class MembersController extends Controller
 			$table->editColumn('email', function ($row) {
                 return $row->email ? $row->email : "";
             });
+			$table->editColumn('phone', function ($row) {
+                return $row->phone ? $row->phone : "";
+            });
 			$table->editColumn('provider', function ($row) {
                 return $row->provider ? $row->provider : "";
             });

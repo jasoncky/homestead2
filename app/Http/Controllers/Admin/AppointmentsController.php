@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Appointment;
+use App\Client;
+use App\Employee;
+use App\Service;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyAppointmentRequest;
 use App\Http\Requests\StoreAppointmentRequest;
@@ -18,7 +21,7 @@ class AppointmentsController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = Appointment::query()->select(sprintf('%s.*', (new Appointment)->table));
+            $query = Appointment::with(['client', 'employee', 'services'])->select(sprintf('%s.*', (new Appointment)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -57,7 +60,7 @@ class AppointmentsController extends Controller
 			$table->editColumn('appointment', function ($row) {
 				return $row->appointment ? $row->appointment : "";
 			});
-            $table->rawColumns(['actions', 'placeholder']);
+            $table->rawColumns(['actions', 'placeholder', 'client', 'employee', 'services']);
 
             return $table->make(true);
         }
@@ -68,40 +71,45 @@ class AppointmentsController extends Controller
     public function create()
     {
         abort_if(Gate::denies('event_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+		
+		$clients = Client::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.appointments.create');
+        $employees = Employee::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $services = Service::all()->pluck('name', 'id');
+
+        return view('admin.appointments.create', compact('clients', 'employees', 'services'));
     }
 
     public function store(StoreAppointmentRequest $request)
     {
-        Appointment::create($request->only('name', 'start_time', 'end_time','recurrence'));
-
+        $appointment = Appointment::create($request->only('name', 'start_time', 'end_time','recurrence'));
+		$appointment->services()->sync($request->input('services', []));
         return redirect()->route('admin.systemCalendar');
     }
 
     public function edit(Appointment $appointment)
     {
         abort_if(Gate::denies('event_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $appointment->load('appointment')
-            ->loadCount('appointments');
-
+		$clients = Client::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $employees = Employee::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $services = Service::all()->pluck('name', 'id');
+		$appointment->load('client', 'employee', 'services');
+        $appointment->load('appointment')->loadCount('appointments');
         return view('admin.appointments.edit', compact('appointment'));
     }
 
     public function update(UpdateAppointmentRequest $request, Appointment $appointment)
     {
         $appointment->update($request->only('name', 'start_time', 'end_time','recurrence'));
-
+		$appointment->services()->sync($request->input('services', []));
         return redirect()->route('admin.systemCalendar');
     }
 
     public function show(Appointment $appointment)
     {
         abort_if(Gate::denies('event_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $appointment->load('appointment');
-
+		$appointment->load('appointment','client', 'employee', 'services');
         return view('admin.appointments.show', compact('appointment'));
     }
 
