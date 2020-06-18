@@ -5,10 +5,13 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\MultiTenantModelTrait;
+use App\Traits\AppointmentModelTrait;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 
 class Appointment extends Model
 {
-    use SoftDeletes, MultiTenantModelTrait;
+    use SoftDeletes, MultiTenantModelTrait, Notifiable, AppointmentModelTrait;
 
     public $table = 'appointments';
 
@@ -37,6 +40,12 @@ class Appointment extends Model
         'updated_at',
         'deleted_at',
 		'created_by_id',
+		'client_id',
+		'employee_id',
+		'service_id',
+		'venue',
+		'description',
+		'status',
     ];
 	
 	public static function boot()
@@ -90,5 +99,20 @@ class Appointment extends Model
 	public function setCreatedByIdAttribute($input)
     {
         $this->attributes['created_by_id'] = $input ? $input : null;
+    }
+	
+	public function services()
+    {
+        return $this->belongsToMany(Service::class);
+    }
+	
+	public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 }

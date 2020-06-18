@@ -46,7 +46,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 	
 	// Members
 	Route::post('members/media', 'MembersApiController@storeMedia')->name('members.storeMedia');
-    Route::apiResource('members', 'TransactionsApiController');
+    Route::apiResource('members', 'MembersApiController');
 	
 	 // Clients
     Route::apiResource('clients', 'ClientsApiController');
@@ -55,4 +55,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('appointments', 'AppointmentsApiController');
 	
 	
+});
+
+Route::fallback(function(){
+    return response()->json(['message' => 'Not Found!'], 404);
 });

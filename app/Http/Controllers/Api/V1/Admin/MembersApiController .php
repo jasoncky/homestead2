@@ -20,7 +20,7 @@ class MembersApiController extends Controller
     {
         abort_if(Gate::denies('member_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new MemberResource(Member::with(['member'])->get());
+        return new MemberResource(Member::all());
     }
 
     public function store(StoreMemberRequest $request)
@@ -36,7 +36,7 @@ class MembersApiController extends Controller
     {
         abort_if(Gate::denies('member_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new MemberResource($member->load(['member']));
+        return new MemberResource($member);
     }
 
     public function update(UpdateMemberRequest $request, Member $member)

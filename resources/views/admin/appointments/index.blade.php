@@ -55,6 +55,9 @@
 						<th>
 							{{ trans('cruds.appointment.fields.services') }}
 						</th>
+						<th class="no-sort">
+                            &nbsp;
+                        </th>
                         <th class="no-sort">
                             &nbsp;
                         </th>
@@ -118,8 +121,9 @@
 		{ data: 'client_name', name: 'client.name' },
 		{ data: 'employee_name', name: 'employee.name' },
 		{ data: 'venue', name: 'venue' },
-		{ data: 'comments', name: 'comments' },
+		{ data: 'description', name: 'description' },
 		{ data: 'services', name: 'services.name' },
+		{ data: 'extaactioncolumn', name: 'extaactioncolumn' },
 		{ data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],

@@ -14,6 +14,8 @@ use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
+use App\Notifications\AppointmentNotify;
+use Illuminate\Support\Facades\Log;
 
 class AppointmentsController extends Controller
 {
@@ -25,8 +27,13 @@ class AppointmentsController extends Controller
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
+			$table->addColumn('extaactioncolumn', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
-
+			
+			$table->editColumn('extaactioncolumn', function ($row) {
+				return view('partials.rowsappointment', compact('row'));
+			});
+			
             $table->editColumn('actions', function ($row) {
                 $viewGate      = 'event_show';
                 $editGate      = 'event_edit';
@@ -41,7 +48,7 @@ class AppointmentsController extends Controller
                     'row'
                 ));
             });
-
+			
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : "";
             });
@@ -60,9 +67,27 @@ class AppointmentsController extends Controller
 			$table->editColumn('appointment', function ($row) {
 				return $row->appointment ? $row->appointment : "";
 			});
-            $table->rawColumns(['actions', 'placeholder', 'client', 'employee', 'services']);
+			 $table->addColumn('client_name', function ($row) {
+                return $row->client ? $row->client->name : '';
+            });
 
-            return $table->make(true);
+            $table->addColumn('employee_name', function ($row) {
+                return $row->employee ? $row->employee->name : '';
+            });
+            $table->editColumn('description', function ($row) {
+                return $row->description ? $row->description : "";
+            });
+			$table->editColumn('services', function ($row) {
+                $labels = [];
+
+                foreach ($row->services as $service) {
+                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $service->name);
+                }
+
+                return implode(' ', $labels);
+            });
+            $table->rawColumns(['actions', 'placeholder', 'client', 'employee', 'services']);
+			return $table->make(true);
         }
 
         return view('admin.appointments.index');
@@ -77,15 +102,19 @@ class AppointmentsController extends Controller
         $employees = Employee::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $services = Service::all()->pluck('name', 'id');
-
+		
         return view('admin.appointments.create', compact('clients', 'employees', 'services'));
     }
 
     public function store(StoreAppointmentRequest $request)
     {
-        $appointment = Appointment::create($request->only('name', 'start_time', 'end_time','recurrence'));
-		$appointment->services()->sync($request->input('services', []));
-        return redirect()->route('admin.systemCalendar');
+        $appointment = Appointment::create($request->only('name', 'start_time', 'end_time','recurrence','client_id','employee_id','venue','description','status'));
+		
+		if ($request->input('services'))
+		{
+			$appointment->services()->sync($request->input('services', []));
+		}
+		return redirect()->route('admin.systemCalendar');
     }
 
     public function edit(Appointment $appointment)
@@ -96,14 +125,14 @@ class AppointmentsController extends Controller
         $services = Service::all()->pluck('name', 'id');
 		$appointment->load('client', 'employee', 'services');
         $appointment->load('appointment')->loadCount('appointments');
-        return view('admin.appointments.edit', compact('appointment'));
+        return view('admin.appointments.edit', compact('appointment', 'employees', 'services', 'appointment','clients'));
     }
 
     public function update(UpdateAppointmentRequest $request, Appointment $appointment)
     {
-        $appointment->update($request->only('name', 'start_time', 'end_time','recurrence'));
+		$appointment->update($request->only('name', 'start_time', 'end_time','recurrence','client_id','employee_id','venue','description','status'));
 		$appointment->services()->sync($request->input('services', []));
-        return redirect()->route('admin.systemCalendar');
+        return redirect()->route('admin.appointments.index');
     }
 
     public function show(Appointment $appointment)
@@ -128,6 +157,35 @@ class AppointmentsController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+	
+	public function updateStatus(Request $request)
+	{
+		abort_if(Gate::denies('event_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+		/*
+		$updated = Appointment::where('id', request('id'))
+			->update([
+				'status' => request('status')
+        ]);
+		if($updated) {
+			// returns true
+			return response()->json(['message' => 'success'], 200); 
+		}
+		else {
+			// returns false
+			return response()->json(['message' => 'fail'], 200); 
+		}*/
+		$appointment = Appointment::find(request('id'));
+		$appointment->status = request('status');
+		$is_saved = $appointment->save();
+		
+		if(!$is_saved){
+			return response()->json(['message' => 'fail'], 200); 
+		}
+		else{
+			return response()->json(['message' => 'success'], 200); 
+		}
+		
+	}
 	
 	public function ajaxUpdate(Request $request)
 	{

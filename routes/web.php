@@ -70,6 +70,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	Route::delete('appointments/destroy', 'AppointmentsController@massDestroy')->name('appointments.massDestroy');
     Route::resource('appointments', 'AppointmentsController');
 	Route::post('appointments/ajaxUpdate', 'AppointmentsController@ajaxUpdate')->name('appointments.ajaxUpdate');
+	Route::post('appointments/updateStatus', 'AppointmentsController@updateStatus')->name('appointments.updateStatus');
 	
 	// Calendar
 	Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
@@ -111,4 +112,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	// Clients
     Route::delete('clients/destroy', 'ClientsController@massDestroy')->name('clients.massDestroy');
     Route::resource('clients', 'ClientsController');
+});
+
+Route::fallback(function () {
+    return abort(404); //default 404
 });

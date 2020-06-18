@@ -62,7 +62,7 @@ class User extends Authenticatable
     {
         return $this->roles()->where('id', 1)->exists();
     }
-
+	
     public function userUserAlerts()
     {
         return $this->belongsToMany(UserAlert::class);

@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Event;
+use App\Appointment;
 use Carbon\Carbon;
 
 class RecurrenceObserver
@@ -13,9 +13,9 @@ class RecurrenceObserver
      * @param  \App\Event  $event
      * @return void
      */
-    public static function created(Event $event)
+    public static function created(Appointment $appointment)
     {
-        if(!$event->event()->exists())
+        if(!$appointment->appointment()->exists())
         {
             $recurrences = [
                 'daily'     => [
@@ -31,20 +31,20 @@ class RecurrenceObserver
                     'function'  => 'addMonth'
                 ]
             ];
-            $startTime = Carbon::parse($event->start_time);
-            $endTime = Carbon::parse($event->end_time);
-            $recurrence = $recurrences[$event->recurrence] ?? null;
+            $startTime = Carbon::parse($appointment->start_time);
+            $endTime = Carbon::parse($appointment->end_time);
+            $recurrence = $recurrences[$appointment->recurrence] ?? null;
 
             if($recurrence)
                 for($i = 0; $i < $recurrence['times']; $i++)
                 {
                     $startTime->{$recurrence['function']}();
                     $endTime->{$recurrence['function']}();
-                    $event->events()->create([
-                        'name'          => $event->name,
+                    $appointment->appointments()->create([
+                        'name'          => $appointment->name,
                         'start_time'    => $startTime,
                         'end_time'      => $endTime,
-                        'recurrence'    => $event->recurrence,
+                        'recurrence'    => $appointment->recurrence,
                     ]);
                 }
         }
@@ -56,16 +56,16 @@ class RecurrenceObserver
      * @param  \App\Event  $event
      * @return void
      */
-    public function updated(Event $event)
+    public function updated(Appointment $appointment)
     {
-        if($event->events()->exists() || $event->event)
+        if($appointment->appointments()->exists() || $appointment->appointment)
         {
-            $startTime = Carbon::parse($event->getOriginal('start_time'))->diffInSeconds($event->start_time, false);
-            $endTime = Carbon::parse($event->getOriginal('end_time'))->diffInSeconds($event->end_time, false);
-            if($event->event)
-                $childEvents = $event->event->events()->whereDate('start_time', '>', $event->getOriginal('start_time'))->get();
+            $startTime = Carbon::parse($appointment->getOriginal('start_time'))->diffInSeconds($appointment->start_time, false);
+            $endTime = Carbon::parse($appointment->getOriginal('end_time'))->diffInSeconds($appointment->end_time, false);
+            if($appointment->appointment)
+                $childEvents = $appointment->appointment->appointments()->whereDate('start_time', '>', $appointment->getOriginal('start_time'))->get();
             else
-                $childEvents = $event->events;
+                $childEvents = $appointment->appointments;
 
             foreach($childEvents as $childEvent)
             {
@@ -73,14 +73,14 @@ class RecurrenceObserver
                     $childEvent->start_time = Carbon::parse($childEvent->start_time)->addSeconds($startTime);
                 if($endTime)
                     $childEvent->end_time = Carbon::parse($childEvent->end_time)->addSeconds($endTime);
-                if($event->isDirty('name') && $childEvent->name == $event->getOriginal('name'))
-                    $childEvent->name = $event->name;
+                if($appointment->isDirty('name') && $childEvent->name == $appointment->getOriginal('name'))
+                    $childEvent->name = $appointment->name;
                 $childEvent->saveQuietly();
             }
         }
 
-        if($event->isDirty('recurrence') && $event->recurrence != 'none')
-            self::created($event);
+        if($appointment->isDirty('recurrence') && $appointment->recurrence != 'none')
+            self::created($appointment);
     }
 
     /**
@@ -89,15 +89,15 @@ class RecurrenceObserver
      * @param  \App\Event  $event
      * @return void
      */
-    public function deleted(Event $event)
+    public function deleted(Appointment $appointment)
     {
-        if($event->events()->exists())
-            $events = $event->events()->pluck('id');
-        else if($event->event)
-            $events = $event->event->events()->whereDate('start_time', '>', $event->start_time)->pluck('id');
+        if($appointment->appointments()->exists())
+            $appointments = $appointment->appointments()->pluck('id');
+        else if($appointment->appointment)
+            $appointments = $appointment->appointment->appointments()->whereDate('start_time', '>', $appointment->start_time)->pluck('id');
         else
-            $events = [];
+            $appointments = [];
         
-            Event::whereIn('id', $events)->delete();
+            Appointment::whereIn('id', $appointments)->delete();
     }
 }
