@@ -29,6 +29,8 @@ Route::get('pricingselect/{planid}', 'PricingController@redirect');
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('search', 'HomeController@search')->name('search');
 
+Route::get('invoice','InvoiceController@index')->name('invoice');
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth','active_user', 'twofactor']], function () {
     Route::get('/', 'AdminController@index')->name('home');
     Route::get('user-alerts/read', 'UserAlertsController@read');
