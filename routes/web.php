@@ -112,6 +112,22 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	// Clients
     Route::delete('clients/destroy', 'ClientsController@massDestroy')->name('clients.massDestroy');
     Route::resource('clients', 'ClientsController');
+	
+	// Contact
+    Route::delete('contacts/destroy', 'ContactsController@massDestroy')->name('contacts.massDestroy');
+    Route::resource('contacts', 'ContactsController');
+	Route::get('contactimport', 'ContactsController@getImport')->name('contacts.contactimport');
+	Route::post('contact_import_parse', 'ContactsController@parseImport')->name('contacts.contact_import_parse');
+	
+	//import
+	//Route::get('import', 'ImportController@getImport')->name('import');
+	//Route::post('import_parse', 'ImportController@parseImport')->name('import_parse');
+	//Route::post('import_process', 'ImportController@processImport')->name('import_process');
+	
+	
+	
+	
+	
 });
 
 Route::fallback(function () {

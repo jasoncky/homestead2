@@ -113,6 +113,34 @@
                     </li>
                 @endcan
 				
+				@can('contact_access')
+                    <li class="nav-item has-treeview {{ request()->is('admin/contacts*') ? 'menu-open' : '' }} {{ request()->is('admin/contacts*') ? 'menu-open' : '' }} {{ request()->is('admin/contacts*') ? 'menu-open' : '' }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw fas fa-users">
+
+                            </i>
+                            <p>
+                                <span>{{ trans('cruds.contactManagement.title') }}</span>
+                                <i class="right fa fa-fw fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('contact_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.contacts.index") }}" class="nav-link {{ request()->is('admin/contacts') || request()->is('admin/contacts/*') ? 'active' : '' }}">
+                                        <i class="fa-fw fas fa-user">
+
+                                        </i>
+                                        <p>
+                                            <span>{{ trans('cruds.contact.title') }}</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+				
 				@can('employee_access')
                     <li class="nav-item has-treeview {{ request()->is('adminemployees*') ? 'menu-open' : '' }} {{ request()->is('admin/employees*') ? 'menu-open' : '' }} {{ request()->is('admin/employees*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">

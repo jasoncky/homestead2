@@ -176,6 +176,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 		Laravel\Socialite\SocialiteServiceProvider::class,
+		Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -228,6 +229,13 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
         'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
 		'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
+		'Excel' 	   => Maatwebsite\Excel\Facades\Excel::class,
+    ],
+	
+	'db_fields' => [
+        'first_name',
+        'last_name',
+        'email'
     ],
 
 ];
