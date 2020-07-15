@@ -57,7 +57,14 @@
                             <td>
                                 <ul>
                                 @foreach($order->products as $key => $item)
-                                    <li>{{ $item->name }} ({{ $item->pivot->quantity }} x ${{ $item->price }})</li>
+                                    <li>{{ $item->name }} ({{ $item->pivot->quantity }} x ${{ $item->price }})
+										@if($item->pivot->discount != 0)
+											<span class="badge badge-info">Discount | {{ $item->pivot->discount }} </span> 
+										@endif
+										@if($item->pivot->discountByPercent != 0)
+											<span class="badge badge-success">Discount | {{ $item->pivot->discountByPercent }} % </span> 
+										@endif
+									</li>
                                 @endforeach
                                 </ul>
                             </td>
@@ -81,6 +88,10 @@
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                     </form>
                                 @endcan
+								
+								<a class="btn btn-xs btn-info" href="{{ route('admin.orders.invoice', $order->id) }}">
+                                        {{ trans('global.invoice') }}
+                                </a>
 
                             </td>
 

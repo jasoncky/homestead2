@@ -95,6 +95,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	// Orders
     Route::delete('orders/destroy', 'OrdersController@massDestroy')->name('orders.massDestroy');
     Route::resource('orders', 'OrdersController');
+	Route::get('orders/invoice/{invoice_id}', 'OrdersController@invoice')->name('orders.invoice');
 	
 	// Transactions
     Route::delete('transactions/destroy', 'TransactionsController@massDestroy')->name('transactions.massDestroy');

@@ -41,6 +41,9 @@ class StoreProductRequest extends FormRequest
 			'description' => [
                 new MaxWordsRule(100),
             ],
+			'photo' => [
+				'image'
+			],
         ];
     }
 }

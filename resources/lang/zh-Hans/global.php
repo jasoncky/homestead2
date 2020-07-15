@@ -251,4 +251,5 @@ return [
     'calendar'                             => '日历',
     'messenger'                            => '信使',
     'login_email_or_username'              => '用户电子邮件或用户名',
+	'invoice'							   => '发票',
 ];

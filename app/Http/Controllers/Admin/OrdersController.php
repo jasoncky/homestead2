@@ -11,6 +11,9 @@ use App\Product;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 class OrdersController extends Controller
 {
@@ -39,9 +42,20 @@ class OrdersController extends Controller
 
         $products = $request->input('products', []);
         $quantities = $request->input('quantities', []);
+		$discounts = $request->input('discounts', []);
+		$discountByPercents = $request->input('discountByPercents', []);
         for ($product=0; $product < count($products); $product++) {
             if ($products[$product] != '') {
-                $order->products()->attach($products[$product], ['quantity' => $quantities[$product]]);
+				$index = $products[$product];
+				$order->products()->syncWithoutDetaching(
+					[$index =>
+						[
+							'quantity' => $quantities[$product],
+							'discount' => $discounts[$product],
+							'discountByPercent' => $discountByPercents[$product]
+						]
+					]
+				);
             }
         }
 
@@ -67,9 +81,19 @@ class OrdersController extends Controller
         $order->products()->detach();
         $products = $request->input('products', []);
         $quantities = $request->input('quantities', []);
+		$discounts = $request->input('discounts', []);
+		$discountByPercents = $request->input('discountByPercents', []);
         for ($product=0; $product < count($products); $product++) {
             if ($products[$product] != '') {
-                $order->products()->attach($products[$product], ['quantity' => $quantities[$product]]);
+                $order->products()->syncWithoutDetaching(
+					[$products[$product] => 
+						[
+							'quantity' => $quantities[$product],
+							'discount' => $discounts[$product],
+							'discountByPercent' => $discountByPercents[$product]
+						]
+					]
+				);
             }
         }
 
@@ -100,4 +124,103 @@ class OrdersController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+	
+	public function invoice(Request $request)
+	{
+		$orders = Order::with('products')
+					->where('orders.id', $request->invoice_id)
+					->get();
+		
+		$items = [];
+		foreach ($orders as $order)
+		{
+			$client = new Party([
+				'name'          => 'Roosevelt Lloyd',
+				'phone'         => '(520) 318-9486',
+			]);
+
+			$customer = new Party([
+				'name'          => $order->customer_name,
+				'email'       => $order->customer_email,
+			]);
+			
+			foreach ($order->products as $order_product)
+			{
+				$description = $order_product->name;;
+				$price = $order_product->price;
+				$qty = $order_product->pivot->quantity;
+				$discount = $order_product->pivot->discount;
+				$discountByPercent = $order_product->pivot->discountByPercent;
+				$units = "";
+				
+				if ($qty!=0 && $discount!=0 && $units!="" && $discountByPercent==0)
+				{	
+					$items[] = (new InvoiceItem())->title($description)->pricePerUnit($price)->quantity($qty)->discount($discount)->units($units);
+				}
+				else if ($qty!=0 && $discount!=0 && $units=="" && $discountByPercent==0)
+				{
+					$items[] = (new InvoiceItem())->title($description)->pricePerUnit($price)->quantity($qty)->discount($discount);
+				}
+				else if ($qty!=0 && $discount==0 && $units=="" && $discountByPercent!=0)
+				{
+					$items[] = (new InvoiceItem())->title($description)->pricePerUnit($price)->quantity($qty)->discountByPercent($discountByPercent);
+				}
+				else if ($qty!=0 && $discount==0 && $units!="" && $discountByPercent==0)
+				{
+					$items[] = (new InvoiceItem())->title($description)->pricePerUnit($price)->quantity($qty)->units($units);
+				}
+				else if ($qty!=0 && $discount==0 && $units=="" && $discountByPercent==0)
+				{
+					$items[] = (new InvoiceItem())->title($description)->pricePerUnit($price)->quantity($qty);
+				}
+				else if ($qty==0 && $discount==0 && $units!="" && $discountByPercent==0)
+				{
+					$items[] = (new InvoiceItem())->title($description)->pricePerUnit($price)->units($units);
+				}
+				else if ($qty==0 &&  $discount==0 && $units=="" && $discountByPercent!=0)
+				{
+					$items[] = (new InvoiceItem())->title($description)->pricePerUnit($price)->discountByPercent($discountByPercent);
+				}
+				else
+				{
+					$items[] = (new InvoiceItem())->title($description)->pricePerUnit($price);
+				}
+			}
+			
+			$notes = [
+				'your multiline',
+				'additional notes',
+				'in regards of delivery or something else',
+			];
+			$notes = implode("<br>", $notes);
+
+			$invoice = Invoice::make('receipt')
+				->series('BIG')
+				->sequence(667)
+				->serialNumberFormat('{SEQUENCE}/{SERIES}')
+				->seller($client)
+				->buyer($customer)
+				->date(now()->subWeeks(3))
+				->dateFormat('m/d/Y')
+				->payUntilDays(14)
+				->currencySymbol('RM')
+				->currencyCode('MYR')
+				->currencyFormat('{SYMBOL}{VALUE}')
+				->currencyThousandsSeparator(',')
+				->currencyDecimalPoint('.')
+				->filename($client->name . ' ' . $customer->name)
+				->addItems($items)
+				->notes($notes)
+				->logo(public_path('vendor/invoices/sample-logo.png'))
+				// You can additionally save generated invoice to configured disk
+				->save('public');
+				
+			$link = $invoice->url();
+			// Then send email to party with link
+
+			// And return invoice itself to browser or have a different view
+			return $invoice->download();
+		}
+		
+	}
 }

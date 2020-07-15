@@ -45,6 +45,8 @@
                             <tr>
                                 <th>Product</th>
                                 <th>Quantity</th>
+								<th>Discount</th>
+								<th>Discount By Percent</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,6 +61,14 @@
                                 </td>
                                 <td>
                                     <input type="number" name="quantities[]" class="form-control" value="1" />
+                                </td>
+								<td>
+                                    <input type="number" name="discounts[]" class="form-control"
+                                           value="0" />
+                                </td>
+								<td>
+                                    <input type="number" name="discountByPercents[]" class="form-control"
+                                           value="0" />
                                 </td>
                             </tr>
                             <tr id="product1"></tr>

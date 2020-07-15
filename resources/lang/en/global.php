@@ -252,4 +252,5 @@ return [
     'messenger'                            => 'Messenger',
 	'chart'								   => 'Chart',
     'login_email_or_username'              => 'Email or username',
+	'invoice'							   => 'Invoice',
 ];

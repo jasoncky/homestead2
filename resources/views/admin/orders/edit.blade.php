@@ -45,6 +45,8 @@
                         <tr>
                             <th>Product</th>
                             <th>Quantity</th>
+							<th>Discount</th>
+							<th>Discount By Percent</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -63,6 +65,14 @@
                                 <td>
                                     <input type="number" name="quantities[]" class="form-control"
                                            value="{{ $order_product->pivot->quantity }}" />
+                                </td>
+								<td>
+                                    <input type="number" name="discounts[]" class="form-control"
+                                           value="{{ $order_product->pivot->discount }}" />
+                                </td>
+								<td>
+                                    <input type="number" name="discountByPercents[]" class="form-control"
+                                           value="{{ $order_product->pivot->discountByPercent }}" />
                                 </td>
                             </tr>
                         @endforeach
