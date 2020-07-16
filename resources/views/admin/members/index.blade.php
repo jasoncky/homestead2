@@ -75,8 +75,8 @@
 $(function () {
   let searchParams = new URLSearchParams(window.location.search)
   let dateInterval = searchParams.get('from-to');
-  let start = moment().subtract(29, 'days');
-  let end = moment();
+  let start = moment();
+  let end = moment().add(1, 'days');
   if (dateInterval) {
       dateInterval = dateInterval.split(' - ');
       start = dateInterval[0];
@@ -162,7 +162,7 @@ $(function () {
 	],
 	// But we do have value, so we can add CSS from data.status_color value
     createdRow: (row, data, dataIndex, cells) => {
-        $(cells[5]).css('background-color', data.status_color)
+        $(cells[6]).css('background-color', data.status_color)
     }
   };
   $('.datatable-member').DataTable(dtOverrideGlobals);

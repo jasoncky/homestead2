@@ -37,6 +37,10 @@ class StoreAppointmentRequest extends FormRequest
                 'required',
                 'integer',
             ],
+			'employee_id'   => [
+                'required',
+                'integer',
+            ],
 			'services.*'  => [
                 'integer',
             ],

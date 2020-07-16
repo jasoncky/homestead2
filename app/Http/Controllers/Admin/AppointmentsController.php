@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 use App\Notifications\AppointmentNotify;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class AppointmentsController extends Controller
 {
@@ -108,13 +109,28 @@ class AppointmentsController extends Controller
 
     public function store(StoreAppointmentRequest $request)
     {
-        $appointment = Appointment::create($request->only('name', 'start_time', 'end_time','recurrence','client_id','employee_id','venue','description','status'));
-		
-		if ($request->input('services'))
-		{
-			$appointment->services()->sync($request->input('services', []));
+		$start = Carbon::parse($request['start_time']);
+		$end = Carbon::parse($request['end_time']);
+		$existsActive = Appointment::where(function ($query) use ($start) {
+											  $query->where('start_time', '<=', $start);
+											  $query->where('end_time', '>=', $start);
+										  })->orWhere(function ($query) use ($end) {
+											  $query->where('start_time', '<=', $end);
+											  $query->where('end_time', '>=', $end);
+										  })->count();
+		if($existsActive > 0 ){
+			return redirect()->route('admin.appointments.create')->with('status', 'You appointment is overlaping, please try other date!');
+		}else{
+			$appointment = Appointment::create($request->only('name', 'start_time', 'end_time','recurrence','client_id','employee_id','venue','description','status'));
+				
+			if ($request->input('services'))
+			{
+				$appointment->services()->sync($request->input('services', []));
+			}
+			return redirect()->route('admin.systemCalendar');	
 		}
-		return redirect()->route('admin.systemCalendar');
+		
+		
     }
 
     public function edit(Appointment $appointment)
@@ -130,9 +146,34 @@ class AppointmentsController extends Controller
 
     public function update(UpdateAppointmentRequest $request, Appointment $appointment)
     {
+		$datechange = false;
+		$start = Carbon::parse($request['start_time']);
+		$end = Carbon::parse($request['end_time']);
+		if ($start != Carbon::parse($appointment->getOriginal('start_time')))
+		{
+			$datechange = true;
+		}
+		
+		if ($end != Carbon::parse($appointment->getOriginal('end_time')))
+		{
+			$datechange = true;
+		}
+		if ($datechange)
+		{
+			$existsActive = Appointment::where(function ($query) use ($start) {
+											  $query->where('start_time', '<=', $start);
+											  $query->where('end_time', '>=', $start);
+										  })->orWhere(function ($query) use ($end) {
+											  $query->where('start_time', '<=', $end);
+											  $query->where('end_time', '>=', $end);
+										  })->count();
+			if($existsActive > 0 ){
+				return redirect()->back()->with('status', 'You appointment is overlaping, please try other date!');
+			}
+		}
 		$appointment->update($request->only('name', 'start_time', 'end_time','recurrence','client_id','employee_id','venue','description','status'));
 		$appointment->services()->sync($request->input('services', []));
-        return redirect()->route('admin.appointments.index');
+		return redirect()->route('admin.appointments.index');	
     }
 
     public function show(Appointment $appointment)
@@ -191,8 +232,32 @@ class AppointmentsController extends Controller
 	{
 		$appointment = Appointment::findOrFail($request->id);
 		//$appointment->update($request->all());
+		$datechange = false;
+		$start = Carbon::parse($request['start_time']);
+		$end = Carbon::parse($request['end_time']);
+		if ($start != Carbon::parse($appointment->getOriginal('start_time')))
+		{
+			$datechange = true;
+		}
+		
+		if ($end != Carbon::parse($appointment->getOriginal('end_time')))
+		{
+			$datechange = true;
+		}
+		if ($datechange)
+		{
+			$existsActive = Appointment::where(function ($query) use ($start) {
+											  $query->where('start_time', '<=', $start);
+											  $query->where('end_time', '>=', $start);
+										  })->orWhere(function ($query) use ($end) {
+											  $query->where('start_time', '<=', $end);
+											  $query->where('end_time', '>=', $end);
+										  })->count();
+			if($existsActive > 0 ){
+				return response()->json(['message' => 'fail'], 200);
+			}
+		}
 		$appointment->update($request->only('name', 'start_time', 'end_time','recurrence'));
-
 		return response()->json(['appointments' => $appointment]);
 	}
 }

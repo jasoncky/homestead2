@@ -44,6 +44,12 @@ class Product extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')->width(50)->height(50);
+		
+		// Watermark conversion
+        $this->addMediaConversion($media->basename.'preview')
+            ->watermark(public_path('/images/watermark.png'))
+			->watermarkOpacity(50)
+            ->nonQueued();
     }
 
     public function categories()
@@ -63,6 +69,7 @@ class Product extends Model implements HasMedia
         if ($file) {
             $file->url       = $file->getUrl();
             $file->thumbnail = $file->getUrl('thumb');
+			$file->preview = $file->getUrl('preview');
         }
 
         return $file;

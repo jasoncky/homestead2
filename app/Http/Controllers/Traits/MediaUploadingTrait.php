@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Traits;
 
 use Illuminate\Http\Request;
+use Spatie\Image\Image;
 
 trait MediaUploadingTrait
 {
@@ -40,6 +41,11 @@ trait MediaUploadingTrait
         $name = uniqid() . '_' . trim($file->getClientOriginalName());
 
         $file->move($path, $name);
+			
+		$image = Image::load($path . '/' . $name)
+			->width(1024)
+			->height(1024)
+			->save();
 
         return response()->json([
             'name'          => $name,

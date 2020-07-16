@@ -52,7 +52,7 @@
             </div>
 			<div class="form-group">
                 <label for="provider">{{ trans('cruds.member.fields.provider') }}</label>
-                <input class="form-control {{ $errors->has('provider') ? 'is-invalid' : '' }}" type="text" name="provider" id="provider" value="{{ old('provider', $member->provider) }}" readonly>
+                <input class="form-control {{ $errors->has('provider') ? 'is-invalid' : '' }}" type="text" name="provider" id="provider" value="{{ old('provider', $member->provider) }}">
                 @if($errors->has(''))
                     <div class="invalid-feedback">
                         {{ $errors->first('') }}

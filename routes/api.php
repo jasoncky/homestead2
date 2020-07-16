@@ -1,6 +1,7 @@
 <?php
 
 Route::get('api/v1/country/search', 'Api\V1\Admin\CountryApiController@search')->name('api.country.search');
+Route::get('api/v1/autocomplete/membersearch', 'Api\V1\Admin\AutocompleteApiController@membersearch')->name('api.autocomplete.membersearch');
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:api']], function () {
     // Permissions
@@ -54,6 +55,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Appointments
     Route::apiResource('appointments', 'AppointmentsApiController');
 	
+	// Contacts
+	Route::apiResource('contacts', 'ContactsApiController');
 	
 });
 

@@ -16,6 +16,9 @@ Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
 Route::get('admin/get_by_country', 'Admin\DropdownController@get_by_country')->name('admin.get_by_country');
 Route::get('admin/get_country', 'Admin\DropdownController@get_country')->name('admin.get_country');
 
+//autocomplete
+Route::get('admin/memberautocomplete', 'Admin\AutocompleteController@memberautocomplete')->name('admin.memberautocomplete');
+
 Auth::routes(['register' => false]);
 // Admin
 

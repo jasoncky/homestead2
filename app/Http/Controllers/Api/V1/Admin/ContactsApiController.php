@@ -15,14 +15,14 @@ class ContactsApiController extends Controller
 {
     public function index()
     {
-        abort_if(Gate::denies('client_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('contact_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return (new ContactResource(Contact::all()))
 			->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function store(StoreClientRequest $request)
+    public function store(StoreContactRequest $request)
     {
         $contact = Contact::create($request->all());
 
@@ -33,7 +33,7 @@ class ContactsApiController extends Controller
 
     public function show(Contact $contact)
     {
-        abort_if(Gate::denies('client_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('contact_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return (new ClientResource($contact))
 			->response()
@@ -44,14 +44,14 @@ class ContactsApiController extends Controller
     {
         $contact->update($request->all());
 
-        return (new ClientResource($contact))
+        return (new ContactResource($contact))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     public function destroy(Contact $contact)
     {
-        abort_if(Gate::denies('client_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('contact_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $contact->delete();
 

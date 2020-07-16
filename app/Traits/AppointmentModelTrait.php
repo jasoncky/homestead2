@@ -83,10 +83,6 @@ trait AppointmentModelTrait
 						];
 						$appointment->notify(new AppointmentNotify($details));
 				}
-
-
-						
-				
 			});
 			
 			static::deleted(function ($appointment) {

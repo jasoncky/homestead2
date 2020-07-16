@@ -38,6 +38,7 @@ class Member extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
+		'phone',
 		'provider', 
 		'provider_id',
 		'status',
@@ -68,8 +69,8 @@ class Member extends Model implements HasMedia
 		
         if(count($date) != 2)
         {
-            Log::debug('date not count 2');
-			$date = [now()->subDays(29)->format("Y-m-d"), now()->format("Y-m-d")];
+            //Log::debug('date not count 2');
+			$date = [now()->format("Y-m-d"), now()->addDays(1)->format("Y-m-d")];
         }
 
         return $query->whereBetween('created_at', $date);

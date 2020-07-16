@@ -1,6 +1,10 @@
 @extends('layouts.admin')
 @section('content')
 
+@if (session('status'))
+  <div class="alert alert-danger"> {{ session('status') }}</div>
+@endif
+
 <div class="card">
     <div class="card-header">
         {{ trans('global.create') }} {{ trans('cruds.appointment.title_singular') }}
@@ -78,8 +82,8 @@
                 </p>
             </div>
 			<div class="form-group {{ $errors->has('client_id') ? 'has-error' : '' }}">
-                <label for="client">{{ trans('cruds.appointment.fields.client') }}</label>
-                <select name="client_id" id="client" class="form-control select2">
+                <label for="client">{{ trans('cruds.appointment.fields.client') }}*</label>
+                <select name="client_id" id="client" class="form-control select2" required>
                     @foreach($clients as $id => $client)
                         <option value="{{ $id }}" {{ (isset($appointment) && $appointment->client ? $appointment->client->id : old('client_id')) == $id ? 'selected' : '' }}>{{ $client }}</option>
                     @endforeach
@@ -91,8 +95,8 @@
                 @endif
             </div>
             <div class="form-group {{ $errors->has('employee_id') ? 'has-error' : '' }}">
-                <label for="employee">{{ trans('cruds.appointment.fields.employee') }}</label>
-                <select name="employee_id" id="employee" class="form-control select2">
+                <label for="employee">{{ trans('cruds.appointment.fields.employee') }}*</label>
+                <select name="employee_id" id="employee" class="form-control select2" required>
                     @foreach($employees as $id => $employee)
                         <option value="{{ $id }}" {{ (isset($appointment) && $appointment->employee ? $appointment->employee->id : old('employee_id')) == $id ? 'selected' : '' }}>{{ $employee }}</option>
                     @endforeach
@@ -136,4 +140,15 @@
 
     </div>
 </div>
+@endsection
+@section('scripts')
+@parent
+<script>
+$("document").ready(function(){
+    setTimeout(function(){
+       $("div.alert").remove();
+    }, 5000 ); // 5 secs
+
+});
+</script>
 @endsection

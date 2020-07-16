@@ -85,20 +85,27 @@
 
 					var url = "{{ route('admin.appointments.ajaxUpdate') }}";
 					$.post(url, data, function( result ) {
-						$('#calendar').fullCalendar('removeEvents', $('#appointment_id').val());
+						console.log(result);
+						if (result["message"]!="fail"){
+							$('#calendar').fullCalendar('removeEvents', $('#appointment_id').val());
 
-						$('#calendar').fullCalendar('renderEvent', {
-							//console.log(result);
-							id:result.appointments.id,
-							title: result.appointments.name,
-							start: result.appointments.start_time,
-							end: result.appointments.end_time
-						}, true);
+							$('#calendar').fullCalendar('renderEvent', {
+								
+								id:result.appointments.id,
+								title: result.appointments.name,
+								start: result.appointments.start_time,
+								end: result.appointments.end_time
+							}, true);
 
-						$('#editModal').modal('hide');
+							$('#editModal').modal('hide');
+						}
+						else
+						{
+							swal("Appointment overlapping, please try other date!!");	
+						}
 					});
 				}else{
-					alert("Start time or End time either is empty!!!");	
+					swal("Start time or End time either is empty!!!");	
 				}
 			});
         });

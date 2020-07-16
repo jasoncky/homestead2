@@ -116,6 +116,29 @@
             row_number--;
           }
         });
+		$('#customer_name').autocomplete({
+		   source:function(request,response){
+			
+			   $.getJSON('{{ route("api.autocomplete.membersearch") }}?term='+request.term,function(data){
+					var array = $.map(data,function(row){
+						$('#customer_email').val("");
+						return {
+							value:row.name,
+							label:row.name,
+							name:row.name,
+							email:row.email
+						}
+					})
+
+					response($.ui.autocomplete.filter(array,request.term));
+			   })
+		   },
+		   minLength:1,
+		   delay:500,
+		   select:function(event,ui){
+			   $('#customer_email').val(ui.item.email)
+		   }
+	   })
       });
     </script>
 @endsection
