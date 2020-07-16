@@ -130,6 +130,8 @@ $(function () {
       }
     }
   }
+  dtButtons.push('selectAll')
+  dtButtons.push('selectNone')
   dtButtons.push(deleteButton)
 @endcan
   let dtOverrideGlobals = {
@@ -157,9 +159,21 @@ $(function () {
     ],
     order: [[ 1, 'desc' ]],
     pageLength: 100,
-	columnDefs: [
-	  { targets: 'no-sort', orderable: false }
+	"columnDefs": [ 
+	  {
+		"targets": [0,7,8],
+		"orderable": false
+	  },
+	  { 
+		orderable: false,
+        className: 'select-checkbox',
+        targets:   0
+	  }
 	],
+    select: {
+        style:    'multi',
+        selector: 'td:first-child'
+    },
 	// But we do have value, so we can add CSS from data.status_color value
     createdRow: (row, data, dataIndex, cells) => {
         $(cells[6]).css('background-color', data.status_color)

@@ -190,3 +190,15 @@ table.dataTable thead .sorting_desc {
 	color:#fff !important;
 	font-weight: bold !important;
 }
+
+.buttons-select-all {
+	background-color: #f4f4f4;
+    color: #444;
+    border-color: #ddd;
+}
+
+.buttons-select-none {
+	background-color: #f4f4f4;
+    color: #444;
+    border-color: #ddd;
+}

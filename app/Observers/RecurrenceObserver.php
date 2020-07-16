@@ -34,6 +34,8 @@ class RecurrenceObserver
             $startTime = Carbon::parse($appointment->start_time);
             $endTime = Carbon::parse($appointment->end_time);
             $recurrence = $recurrences[$appointment->recurrence] ?? null;
+			$client_id =  $appointment->client_id;
+			$employee_id =  $appointment->employee_id;
 
             if($recurrence)
                 for($i = 0; $i < $recurrence['times']; $i++)
@@ -45,6 +47,8 @@ class RecurrenceObserver
                         'start_time'    => $startTime,
                         'end_time'      => $endTime,
                         'recurrence'    => $appointment->recurrence,
+						'client_id'		=> $client_id,
+						'employee_id'	=> $employee_id,
                     ]);
                 }
         }

@@ -80,6 +80,8 @@
       }
     }
   }
+  dtButtons.push('selectAll')
+  dtButtons.push('selectNone')
   dtButtons.push(deleteButton)
 @endcan
 

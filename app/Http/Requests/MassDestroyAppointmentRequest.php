@@ -20,7 +20,7 @@ class MassDestroyAppointmentRequest extends FormRequest
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:events,id',
+            'ids.*' => 'exists:appointments,id',
         ];
     }
 }

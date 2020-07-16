@@ -158,7 +158,7 @@ class MembersController extends Controller
 
     public function massDestroy(MassDestroyMemberRequest $request)
     {
-        Employee::whereIn('id', request('ids'))->delete();
+        Member::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

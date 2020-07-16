@@ -76,6 +76,8 @@
       }
     }
   }
+  dtButtons.push('selectAll')
+  dtButtons.push('selectNone')
   dtButtons.push(deleteButton)
 @endcan
 
@@ -95,7 +97,9 @@
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    pageLength: 10,
+	lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+	pagingType: 'simple_numbers',
   };
   $('.datatable-Client').DataTable(dtOverrideGlobals);
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

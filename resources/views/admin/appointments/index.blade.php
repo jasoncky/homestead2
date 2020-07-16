@@ -37,9 +37,6 @@
                         <th>
                             {{ trans('cruds.appointment.fields.recurrence') }}
                         </th>
-                        <th>
-                            {{ trans('cruds.appointment.fields.appointment') }}
-                        </th>
 						<th>
 							{{ trans('cruds.appointment.fields.client') }}
 						</th>
@@ -74,14 +71,14 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('event_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.appointments.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
       });
 
       if (ids.length === 0) {
@@ -100,7 +97,9 @@
       }
     }
   }
-  dtButtons.push(deleteButton)
+  dtButtons.push('selectAll')
+  dtButtons.push('selectNone')
+  dtButtons.push(deleteButton)	
 @endcan
   
   let dtOverrideGlobals = {
@@ -117,7 +116,6 @@
 		{ data: 'start_time', name: 'start_time' },
 		{ data: 'end_time', name: 'end_time' },
 		{ data: 'recurrence', name: 'recurrence' },
-		{ data: 'appointment', name: 'appointment' },
 		{ data: 'client_name', name: 'client.name' },
 		{ data: 'employee_name', name: 'employee.name' },
 		{ data: 'venue', name: 'venue' },
@@ -131,8 +129,9 @@
 	lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
 	pagingType: 'simple_numbers',
 	columnDefs: [
-	  { targets: 'no-sort', orderable: false }
-	]
+	  { targets: 'no-sort', orderable: false },
+	  { orderable: false, className: 'select-checkbox', targets: 0 }
+	],
   };
   
   

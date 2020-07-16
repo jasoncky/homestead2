@@ -89,6 +89,8 @@
       }
     }
   }
+  dtButtons.push('selectAll')
+  dtButtons.push('selectNone')
   dtButtons.push(deleteButton)
 @endcan
   let dtOverrideGlobals = {
@@ -114,9 +116,6 @@
     pageLength: 10,
 	lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
 	pagingType: 'simple_numbers',
-	columnDefs: [
-	  { targets: 'no-sort', orderable: false }
-	],
 	 // But we do have value, so we can add CSS from data.status_color value
     createdRow: (row, data, dataIndex, cells) => {
         $(cells[6]).css('background-color', data.status_color)
