@@ -62,6 +62,7 @@ class SocialAccountService
 			$member->save();
 			//Log::info('data to return aaaaaaaa');
 			//Log::info('data to return: '.print_r($member,1));
+			
 			return $member;
 		}
     }

@@ -202,3 +202,22 @@ table.dataTable thead .sorting_desc {
     color: #444;
     border-color: #ddd;
 }
+
+.member-login-box {
+	width: 580px;
+    margin: 7% auto;
+}
+
+.or-seperator {
+    margin: 30px 0 10px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
+
+.or-seperator i {
+    padding: 0 10px;
+    background: #f7f7f7;
+    position: relative;
+    top: -11px;
+    z-index: 1;
+}

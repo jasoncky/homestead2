@@ -3,8 +3,12 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -52,5 +56,27 @@ class Handler extends ExceptionHandler
 		}
 
 		return parent::render($request, $exception);
+    }
+	
+	protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
+
+        $guard = Arr::get($exception->guards(), 0);
+
+       switch ($guard) {
+         case 'member':
+           Log::info('unauthenticated member');
+		   $login='member.login';
+           break;
+
+         default:
+           $login='login';
+           break;
+       }
+		Session::forget('url.intented'); 
+        return redirect()->guest(route($login));
     }
 }

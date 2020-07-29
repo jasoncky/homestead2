@@ -10,19 +10,21 @@ use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Traits\MultiTenantModelTrait;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Member extends Model implements HasMedia
+class Member extends Authenticatable implements HasMedia
 {
     use SoftDeletes, HasMediaTrait, MultiTenantModelTrait;
 
     public $table = 'members';
+	protected $guard = 'member';
 
     protected $appends = [
         'photo',
     ];
 	
 	protected $hidden = [
-        'password',
+        'password','remember_token'
     ];
 
     protected $dates = [
@@ -96,5 +98,10 @@ class Member extends Model implements HasMedia
 	public function created_by()
     {
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+	
+	public function getAuthPassword()
+    {
+		return $this->password;
     }
 }

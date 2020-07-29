@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Socialite;
 use App\Http\Services\SocialAccountService;
 use Illuminate\Support\Facades\Log;
+use Auth;
 
 class SocialAuthController extends Controller
 {
@@ -16,7 +17,7 @@ class SocialAuthController extends Controller
    */
     public function redirect($driver)
     {
-        return Socialite::driver($driver)->redirect();
+        return Socialite::driver($driver)->stateless()->redirect();
     }
     /**
      * Return a callback method from facebook api.
@@ -28,11 +29,9 @@ class SocialAuthController extends Controller
 		$value = session()->get('plan');
 		Log::info('plan: '.$value);
 		
-		$members = $service->createOrGetUser($driver, Socialite::driver($driver)->user());
-		
-        //auth()->login($user);
-        //return redirect()->to('/home');
-		//Log::info('Showing user profile for facebook 111111111: '.print_r($members,1));
+		$members = $service->createOrGetUser($driver, Socialite::driver($driver)->stateless()->user());
+		Auth::guard('member')->login($members, true);
+        return redirect()->to('/member');
     }
 }
 

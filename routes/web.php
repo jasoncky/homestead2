@@ -5,7 +5,6 @@ Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home')->with('status', session('status'));
     }
-
     return redirect()->route('admin.home');
 });
 
@@ -129,12 +128,47 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	//Route::get('import', 'ImportController@getImport')->name('import');
 	//Route::post('import_parse', 'ImportController@parseImport')->name('import_parse');
 	//Route::post('import_process', 'ImportController@processImport')->name('import_process');
-	
-	
-	
-	
-	
 });
+
+/*
+Route::get('member/login', 'Auth\MemberLoginController@showLoginForm')->name('member.login');
+Route::post('member/login', 'Auth\MemberLoginController@login')->name('member.login.post');
+Route::post('member/logout', 'Auth\MemberLoginController@logout')->name('member.logout');
+
+Route::group(['middleware'=>'member'], function() {
+    Route::get('member/home', 'Member\HomeController@index')->name('member.home');
+});
+
+*/
+
+
+
+Route::group(['namespace' => 'Member'] , function(){
+  Route::get('member/login', 'Auth\MemberLoginController@showLoginForm')->name('member.login');
+  Route::post('member/login', 'Auth\MemberLoginController@login')->name('member.login.post');
+  Route::post('member/logout', 'Auth\MemberLoginController@logout')->name('member.logout');
+  Route::get('member', 'HomeController@index')->name('member.home');
+});
+
+
+/*
+Route::group(['prefix' => 'member', 'as' => 'member.', 'namespace' => 'Member'], function () {
+    Route::get('member/login','Auth\MemberLoginController@showLoginForm')->name('member.login');
+    Route::post('member/login', 'Auth\MemberLoginLoginController@login')->name('member.login.submit');
+    Route::get('member/logout', 'Auth\MemberLoginLoginController@logout')->name('member.logout');
+   
+});
+*/
+
+
+
+
+
+
+
+
+
+
 
 Route::fallback(function () {
     return abort(404); //default 404
