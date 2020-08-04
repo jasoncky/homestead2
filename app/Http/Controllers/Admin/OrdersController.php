@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Party;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
+use Illuminate\Support\Facades\Log;
 
 class OrdersController extends Controller
 {
@@ -30,7 +31,7 @@ class OrdersController extends Controller
     {
         abort_if(Gate::denies('order_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $products = Product::all();
+        $products = Product::where('status', '=','Active')->get();
 
         return view('admin.orders.create', compact('products'));
     }
@@ -38,7 +39,8 @@ class OrdersController extends Controller
     public function store(StoreOrderRequest $request)
     {
         //$order = Order::create($request->all());
-		$order = Order::create($request->only('customer_name', 'customer_email', 'products','quantities'));
+		$request->merge(['status' => 'Confirmed']);
+		$order = Order::create($request->only('customer_name', 'customer_email', 'products','quantities','status'));
 
         $products = $request->input('products', []);
         $quantities = $request->input('quantities', []);
@@ -56,6 +58,9 @@ class OrdersController extends Controller
 						]
 					]
 				);
+				$prod = Product::find($products[$product]);
+                $prod->stock = $prod->stock - $quantities[$product];
+                $prod->update();
             }
         }
 
@@ -76,16 +81,27 @@ class OrdersController extends Controller
     public function update(UpdateOrderRequest $request, Order $order)
     {
         //$order->update($request->all());
-		$order->update($request->only('customer_name', 'customer_email', 'products','quantities'));
-
+		$order->update($request->only('customer_name', 'customer_email', 'products','quantities','status'));
+		
+		foreach ($order->products as $order_product){
+			/*Log::info('product id: '.$order_product->id);
+			Log::info('product name: '.$order_product->name);
+			Log::info('before order stock: '.$order_product->pivot->quantity);*/
+			
+			$prod = Product::find($order_product->id);
+			$prod->stock = $prod->stock + $order_product->pivot->quantity;
+			$prod->update();
+		}
+		
         $order->products()->detach();
         $products = $request->input('products', []);
         $quantities = $request->input('quantities', []);
 		$discounts = $request->input('discounts', []);
 		$discountByPercents = $request->input('discountByPercents', []);
+
         for ($product=0; $product < count($products); $product++) {
             if ($products[$product] != '') {
-                $order->products()->syncWithoutDetaching(
+				$order->products()->syncWithoutDetaching(
 					[$products[$product] => 
 						[
 							'quantity' => $quantities[$product],
@@ -94,6 +110,9 @@ class OrdersController extends Controller
 						]
 					]
 				);
+				$prod = Product::find($products[$product]);
+                $prod->stock = $prod->stock - $quantities[$product];
+                $prod->update();
             }
         }
 

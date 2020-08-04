@@ -221,3 +221,14 @@ table.dataTable thead .sorting_desc {
     top: -11px;
     z-index: 1;
 }
+
+.blink-bg{
+	color: #FF0000;
+	font-weight:bold;
+	animation: blinker 1s linear infinite;
+}
+@keyframes blinker {
+	50% {
+		opacity: 0;
+	}
+}

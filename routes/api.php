@@ -1,10 +1,22 @@
 <?php
 
-Route::get('api/v1/country/search', 'Api\V1\Admin\CountryApiController@search')->name('api.country.search');
-Route::get('api/v1/autocomplete/membersearch', 'Api\V1\Admin\AutocompleteApiController@membersearch')->name('api.autocomplete.membersearch');
+Route::post('register', 'API\V1\AuthController@register');
+Route::post('login', 'API\V1\AuthController@login');
+Route::post('member/login', 'API\V1\AuthController@memberlogin');
 
-Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:api']], function () {
-    // Permissions
+Route::group([
+	'middleware' => ['auth:api']], function () {
+		Route::get('logout','API\V1\AuthController@logout');
+		Route::get('member/logout','API\V1\AuthController@memberlogout');
+});
+
+Route::group([
+	'prefix' => 'v1', 
+	'as' => 'api.', 
+	'namespace' => 'Api\V1\Admin', 
+	'middleware' => ['auth:api']], function () {
+	
+	// Permissions
     Route::apiResource('permissions', 'PermissionsApiController');
 
     // Roles
@@ -58,8 +70,4 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 	// Contacts
 	Route::apiResource('contacts', 'ContactsApiController');
 	
-});
-
-Route::fallback(function(){
-    return response()->json(['message' => 'Not Found!'], 404);
 });

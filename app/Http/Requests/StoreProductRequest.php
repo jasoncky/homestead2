@@ -44,6 +44,15 @@ class StoreProductRequest extends FormRequest
 			'photo' => [
 				'image'
 			],
+			'code' => [
+				'required',
+			],
+			'stock' => [
+				'required','integer',
+			],
+			'status' => [
+				'required',
+			],
         ];
     }
 }

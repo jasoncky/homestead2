@@ -27,13 +27,29 @@ class Product extends Model implements HasMedia
 
     protected $fillable = [
         'name',
+		'code',
         'price',
+		'stock',
+		'status',
+		'quantity',
         'created_at',
         'updated_at',
         'deleted_at',
         'description',
 		'created_by_id',
     ];
+	
+	const STATUS_COLOR = [
+        'Active'   => '#90EE90',
+        'Inactive' => '#00BFFF',
+    ];
+	
+	const STOCK_COLOR = [
+        'LOWALERT' => '#ffc107',
+		'LOWSTOCK' => '#dc3545',
+    ];
+	
+	const LOWALERPERCENT = 30;
    
     public static function boot()
 	{

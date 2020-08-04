@@ -51,6 +51,12 @@ return [
             'driver'   => 'session',
             'provider' => 'members',
         ],
+		
+		'member-api' => [
+            'driver' => 'passport',
+            'provider' => 'members',
+			'hash'     => false,
+        ],
     ],
 
     /*

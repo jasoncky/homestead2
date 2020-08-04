@@ -10,11 +10,14 @@ use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Traits\MultiTenantModelTrait;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class Member extends Authenticatable implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait, MultiTenantModelTrait;
+    use Notifiable, SoftDeletes, HasMediaTrait, MultiTenantModelTrait, HasApiTokens;
 
     public $table = 'members';
 	protected $guard = 'member';
@@ -68,14 +71,15 @@ class Member extends Authenticatable implements HasMedia
 	public function scopeFilterDates($query)
     {
         $date = explode(" - ", request()->input('from-to', "")); 
-		
+		//Log::debug('scopeFilterDates');
         if(count($date) != 2)
         {
             //Log::debug('date not count 2');
-			$date = [now()->format("Y-m-d"), now()->addDays(1)->format("Y-m-d")];
-        }
-
-        return $query->whereBetween('created_at', $date);
+			//$date = [now()->format("Y-m-d"), now()->addDays(1)->format("Y-m-d")];
+			return $query->orderBy('created_at', 'desc');
+		}else{
+			return $query->whereBetween('created_at', $date);
+		}
     }
 	
     public function registerMediaConversions(Media $media = null)
@@ -104,4 +108,13 @@ class Member extends Authenticatable implements HasMedia
     {
 		return $this->password;
     }
+	
+	public function getJWTIdentifier()
+	{
+		return $this->getKey();
+	}
+	public function getJWTCustomClaims()
+	{
+		return [];
+	}
 }

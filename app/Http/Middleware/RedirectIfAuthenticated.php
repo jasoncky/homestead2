@@ -23,7 +23,7 @@ class RedirectIfAuthenticated
                 Log::info('guard is member');
 				return redirect('/member');    
             }
-            return redirect('/home');
+            return redirect('/admin');
         }
         return $next($request);
     }

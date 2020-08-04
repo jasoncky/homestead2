@@ -18,6 +18,14 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.product.fields.name_helper') }}</span>
             </div>
+			<div class="form-group">
+                <label class="required" for="code">{{ trans('cruds.product.fields.code') }}</label>
+                <input class="form-control {{ $errors->has('code') ? 'is-invalid' : '' }}" type="text" name="code" id="code" value="{{ old('code', $product->code) }}" required>
+                @if($errors->has('code'))
+                    <span class="text-danger">{{ $errors->first('code') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.product.fields.code_helper') }}</span>
+            </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.product.fields.description') }}</label>
                 <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $product->description) }}</textarea>
@@ -33,6 +41,14 @@
                     <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.product.fields.price_helper') }}</span>
+            </div>
+			<div class="form-group">
+                <label class="required" for="code">{{ trans('cruds.product.fields.stock') }}</label>
+                <input class="form-control {{ $errors->has('stock') ? 'is-invalid' : '' }}" type="number" name="stock" id="stock" value="{{ old('stock', $product->stock) }}" required>
+                @if($errors->has('stock'))
+                    <span class="text-danger">{{ $errors->first('stock') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.product.fields.stock_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="categories">{{ trans('cruds.product.fields.category') }}</label>
@@ -74,6 +90,17 @@
                     <span class="text-danger">{{ $errors->first('photo') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.product.fields.photo_helper') }}</span>
+            </div>
+			<div class="form-group">
+                <label class="required" for="password">{{ trans('cruds.product.fields.status') }}</label>
+                <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status" id="status" required>
+					<option value="Active" {{ old('status', $product->status) == 'Active' ? 'Selected' : '' }} >Active</option>
+					<option value="Inactive" {{ old('status', $product->status) == 'Inactive' ? 'Selected' : '' }} >Inactive</option>
+				</select>
+                @if($errors->has('status'))
+                    <span class="text-danger">{{ $errors->first('status') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.product.fields.status_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

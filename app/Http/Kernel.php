@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'auth.basic'       => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
 		'twofactor'        => \App\Http\Middleware\TwoFactor::class,
-		'auth.jwt'  	   => \Tymon\JWTAuth\Http\Middleware\Authenticate::class, // JWT middleware
 		'active_user'      => \App\Http\Middleware\ActiveUser::class,
+		'assign.guard'     => \App\Http\Middleware\AssignGuard::class,
     ];
 }

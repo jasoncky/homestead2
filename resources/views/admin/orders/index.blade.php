@@ -34,6 +34,9 @@
                         <th>
                             {{ trans('cruds.order.fields.products') }}
                         </th>
+						<th>
+                            {{ trans('cruds.order.fields.status') }}
+                        </th>
                         <th>
                             &nbsp;
                         </th>
@@ -68,6 +71,7 @@
                                 @endforeach
                                 </ul>
                             </td>
+							<td style="background-color: @if($order->status=='Confirmed' || $order->status=='Completed') {{"rgb(144, 238, 144)"}} @elseif ($order->status=='Pending' || $order->status=='Processing') {{"#f1c500"}} @endif">{{ $order->status ?? '' }}</td>
                             <td>
                                 @can('order_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.orders.show', $order->id) }}">

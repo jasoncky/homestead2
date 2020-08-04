@@ -27,6 +27,9 @@ class ProductController extends Controller
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
+			$table->addColumn('status_color', ' ');
+			$table->addColumn('stock_color', ' ');
+			$table->addColumn('stock_blink', ' ');
 
             $table->editColumn('actions', function ($row) {
                 $viewGate      = 'product_show';
@@ -46,6 +49,9 @@ class ProductController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : "";
             });
+			$table->editColumn('code', function ($row) {
+                return $row->code ? $row->code : "";
+            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : "";
             });
@@ -54,6 +60,39 @@ class ProductController extends Controller
             });
             $table->editColumn('price', function ($row) {
                 return $row->price ? $row->price : "";
+            });
+			
+			$table->editColumn('stock_color', function ($row) {
+				
+				$percentChange = (1 - ($row->stock / $row->quantity)) * 100;
+				if (($row->quantity != $row->stock) && ($percentChange >= Product::LOWALERPERCENT))
+				{
+					return Product::STOCK_COLOR["LOWALERT"];
+				}
+				else if ($row->stock < 1)
+				{
+					return Product::STOCK_COLOR["LOWSTOCK"];
+				}
+				else
+				{
+					return '';
+				}
+			});
+			
+			$table->editColumn('stock_blink', function ($row) {
+				$percentChange = (1 - ($row->stock / $row->quantity)) * 100;
+				if (($row->quantity != $row->stock) && ($percentChange >= Product::LOWALERPERCENT))
+				{
+					return 'blink';
+				}
+				else
+				{
+					return '';
+				}
+			});
+			
+			$table->editColumn('stock', function ($row) {
+                return $row->stock ? $row->stock : 0;
             });
             $table->editColumn('category', function ($row) {
                 $labels = [];
@@ -84,7 +123,9 @@ class ProductController extends Controller
 
                 return '';
             });
-
+			$table->editColumn('status_color', function ($row) {
+				return $row->status && Product::STATUS_COLOR[$row->status] ? Product::STATUS_COLOR[$row->status] : 'none';
+			});
             $table->rawColumns(['actions', 'placeholder', 'category', 'tag', 'photo']);
 
             return $table->make(true);
@@ -107,7 +148,8 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         //$product = Product::create($request->all());
-		$product = Product::create($request->only('name', 'description', 'price','categories','tags','photo'));
+		$request->merge(['quantity' => $request->input('stock')]);
+		$product = Product::create($request->only('name', 'description', 'price','categories','tags','photo','code','quantity','stock','status'));
         $product->categories()->sync($request->input('categories', []));
         $product->tags()->sync($request->input('tags', []));
 
@@ -134,7 +176,8 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         //$product->update($request->all());
-		$product->update($request->only('name', 'description', 'price','categories','tags','photo'));
+		$request->merge(['quantity' => $request->input('stock')]);
+		$product->update($request->only('name', 'description', 'price','categories','tags','photo','code','quantity','stock','status'));
         $product->categories()->sync($request->input('categories', []));
         $product->tags()->sync($request->input('tags', []));
 

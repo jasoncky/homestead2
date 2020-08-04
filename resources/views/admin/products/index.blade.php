@@ -24,6 +24,9 @@
                     <th>
                         {{ trans('cruds.product.fields.id') }}
                     </th>
+					<th>
+                        {{ trans('cruds.product.fields.code') }}
+                    </th>
                     <th>
                         {{ trans('cruds.product.fields.name') }}
                     </th>
@@ -33,6 +36,9 @@
                     <th>
                         {{ trans('cruds.product.fields.price') }}
                     </th>
+					<th>
+                        {{ trans('cruds.product.fields.stock') }}
+                    </th>
                     <th>
                         {{ trans('cruds.product.fields.category') }}
                     </th>
@@ -41,6 +47,9 @@
                     </th>
                     <th>
                         {{ trans('cruds.product.fields.photo') }}
+                    </th>
+					<th>
+                        {{ trans('cruds.product.fields.status') }}
                     </th>
                     <th class="no-sort">
                         &nbsp;
@@ -101,18 +110,28 @@
     columns: [
 		{ data: 'placeholder', name: 'placeholder' },
 		{ data: 'id', name: 'id' },
+		{ data: 'code', name: 'code' },
 		{ data: 'name', name: 'name' },
 		{ data: 'description', name: 'description' },
 		{ data: 'price', name: 'price' },
+		{ data: 'stock', name: 'stock' },
 		{ data: 'category', name: 'categories.name' },
 		{ data: 'tag', name: 'tags.name' },
 		{ data: 'photo', name: 'photo', sortable: false, searchable: false },
+		{ data: 'status', name: 'status' },
 		{ data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],
     pageLength: 10,
 	lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
 	pagingType: 'simple_numbers',
+	createdRow: (row, data, dataIndex, cells) => {
+        $(cells[6]).css('background-color', data.stock_color);
+		if (data.stock_blink != ""){
+			$(cells[6]).addClass('blink-bg');
+		}
+		$(cells[10]).css('background-color', data.status_color);
+    }
   };
   $('.datatable-Product').DataTable(dtOverrideGlobals);
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

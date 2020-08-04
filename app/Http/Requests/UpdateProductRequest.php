@@ -37,6 +37,15 @@ class UpdateProductRequest extends FormRequest
             'tags'         => [
                 'array',
             ],
+			'code' => [
+				'required',
+			],
+			'stock' => [
+				'required','integer',
+			],
+			'status' => [
+				'required',
+			],
         ];
     }
 }

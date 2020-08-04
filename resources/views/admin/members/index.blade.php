@@ -75,8 +75,8 @@
 $(function () {
   let searchParams = new URLSearchParams(window.location.search)
   let dateInterval = searchParams.get('from-to');
-  let start = moment();
-  let end = moment().add(1, 'days');
+  let start = moment().startOf('month');
+  let end = moment().endOf('month');
   if (dateInterval) {
       dateInterval = dateInterval.split(' - ');
       start = dateInterval[0];
