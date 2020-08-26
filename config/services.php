@@ -31,14 +31,14 @@ return [
     ],
 	
 	'facebook' => [
-		'client_id' => '648064742589494',
-		'client_secret' => '6ea1cbf813e01f5b3148a4a2ab56cfc3',
+		'client_id' => 'xxxxxxxxxxxxx',
+		'client_secret' => 'xxxxxxxxxxxxxxxx',
 		'redirect' => 'https://homestead.app/callback/facebook',
 	],
 	
 	'google' => [
-        'client_id' => '817920195907-p9gsatof6q6d4gvklgn7gmrbqhe42e16.apps.googleusercontent.com',
-        'client_secret' => 'Dv-ngI3H1opQvfEz9Hz0vD-L',
+        'client_id' => 'xxxxxxxxxxxx-xxxxxxxxxxxxxx',
+        'client_secret' => 'xxxxxxxx',
         'redirect' => 'https://homestead.app/callback/google',
     ],
 ];
